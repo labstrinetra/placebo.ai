@@ -15,7 +15,18 @@ class MedicalChatbot:
     def __init__(self, vector_store_path=None):
         if vector_store_path is None:
             import os
-            vector_store_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "db", "vector_store")
+            # Intelligently scan for the database (Local vs Hugging Face Dataset Mounts)
+            possible_paths = [
+                os.path.join(os.path.dirname(os.path.dirname(__file__)), "db", "vector_store"),
+                "/data/smart-models/Placebo_AI_DB/db/vector_store",
+                "/data/db/vector_store"
+            ]
+            
+            vector_store_path = possible_paths[0] # Default fallback
+            for p in possible_paths:
+                if os.path.exists(p):
+                    vector_store_path = p
+                    break
         self.embeddings = HuggingFaceEmbeddings(
             model_name="nomic-ai/nomic-embed-text-v1.5",
             model_kwargs={'trust_remote_code': True}
