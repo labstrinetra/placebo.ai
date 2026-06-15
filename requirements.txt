@@ -11,3 +11,4 @@ langchain-classic
 chromadb
 sentence-transformers
 einops
+cryptography

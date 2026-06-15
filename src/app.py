@@ -58,7 +58,7 @@ def get_current_user(request: Request):
             
     except jwt.ExpiredSignatureError:
         raise HTTPException(status_code=401, detail="Unauthorized: Token has expired.")
-    except jwt.InvalidTokenError as e:
+    except Exception as e:
         raise HTTPException(status_code=401, detail=f"Unauthorized: Invalid token. {str(e)}")
 
 # Disable default docs to allow our custom /docs route to work
