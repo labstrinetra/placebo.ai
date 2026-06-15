@@ -429,8 +429,19 @@
                 const SUPABASE_ANON_KEY = config.supabase_anon_key;
 
                 if (window.supabase && typeof window.supabase.createClient === 'function' && SUPABASE_URL && SUPABASE_URL !== "https://your-project-id.supabase.co") {
-                    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-                    console.log("Supabase Client initialized. Testing connectivity...");
+                    // Wipe any old local storage sessions lingering from before this feature
+                    for (let key in localStorage) {
+                        if (key.startsWith('sb-') && key.endsWith('-auth-token')) {
+                            localStorage.removeItem(key);
+                        }
+                    }
+                    
+                    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+                        auth: {
+                            persistSession: false // Forces logout on every page refresh
+                        }
+                    });
+                    console.log("Supabase Client initialized with ephemeral sessions. Testing connectivity...");
                     
                     // Connection ping test with 2-second timeout
                     const pingPromise = supabaseClient.auth.getSession();
