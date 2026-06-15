@@ -9,7 +9,7 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 import jwt
-from chatbot_engine import MedicalChatbot
+from src.chatbot_engine import MedicalChatbot
 
 # Load environment configurations
 load_dotenv()
