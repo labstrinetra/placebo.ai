@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capabilities | Placebo AI</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+    <link rel="shortcut icon" href="/static/favicon.ico">
+</head>
+<body>
+    <div id="video-container">
+        <video id="hero-video" autoplay loop muted playsinline>
+            <source src="/static/bg_video.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <div class="content-layer">
+        <nav>
+            <div class="logo-area" style="display: flex; align-items: center; gap: 12px;">
+                <img src="/static/logo.png" width="32" height="32" alt="Logo" style="filter: brightness(0) invert(1);">
+                <a href="/" class="logo">Placebo AI</a>
+            </div>
+            <div class="menu-items">
+                <a href="/" class="menu-item">Home</a>
+                <a href="/architecture" class="menu-item">Architecture</a>
+                <a href="/capabilities" class="menu-item">Capabilities</a>
+                <a href="/docs" class="menu-item">Docs</a>
+                <a href="/about" class="menu-item">About</a>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn-signup">Sign Up</button>
+                <button class="btn-login">Log In</button>
+            </div>
+        </nav>
+
+        <main class="info-content" style="padding: 120px 80px; max-width: 1200px; margin: 0 auto;">
+            <h1 style="font-size: 48px; margin-bottom: 24px;">Core Capabilities</h1>
+            <p class="subtitle" style="font-size: 20px; opacity: 0.8; margin-bottom: 60px;">Engineered to solve the specific challenges medical professionals face with traditional AI systems.</p>
+
+            <div class="grid-layout" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                <div class="info-card" style="background: rgba(255,255,255,0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); padding: 40px; border-radius: 24px;">
+                    <h3 style="color: var(--primary); margin-bottom: 16px;">Multimodal Understanding</h3>
+                    <p style="color: var(--white); line-height: 1.6; opacity: 0.9;">
+                        Placebo AI understands complex medical layouts—not just text. It converts dosage tables, clinical trial data, pharmacokinetic parameters, chemical structures, and metabolic pathways into structured, queryable intelligence.
+                    </p>
+                </div>
+
+                <div class="info-card" style="background: rgba(255,255,255,0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); padding: 40px; border-radius: 24px;">
+                    <h3 style="color: var(--primary); margin-bottom: 16px;">Semantic Search</h3>
+                    <p style="color: var(--white); line-height: 1.6; opacity: 0.9;">
+                        Finds meaning, not just keywords. It understands the intent behind questions—matching "glucose-lowering drugs" to the correct antihyperglycemic agents even when keywords don't overlap.
+                    </p>
+                </div>
+
+                <div class="info-card" style="background: rgba(255,255,255,0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); padding: 40px; border-radius: 24px;">
+                    <h3 style="color: var(--primary); margin-bottom: 16px;">Citation-Backed Answers</h3>
+                    <p style="color: var(--white); line-height: 1.6; opacity: 0.9;">
+                        Every claim includes a direct link to its source textbook page. No unsubstantiated statements. Professional medical researchers can open the original source to verify data instantly.
+                    </p>
+                </div>
+
+                <div class="info-card" style="background: rgba(255,255,255,0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); padding: 40px; border-radius: 24px;">
+                    <h3 style="color: var(--primary); margin-bottom: 16px;">High-Speed Intelligence</h3>
+                    <p style="color: var(--white); line-height: 1.6; opacity: 0.9;">
+                        Delivers medical intelligence in seconds. Optimized for interactive use during clinical rounds or while reviewing patient cases, providing answers significantly faster than manual textbook lookups.
+                    </p>
+                </div>
+            </div>
+
+            <section style="margin-top: 80px;">
+                <h2 style="margin-bottom: 30px;">Capability Comparison</h2>
+                <div class="table-container" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; overflow: hidden;">
+                    <table style="width: 100%; border-collapse: collapse; color: var(--white); text-align: left;">
+                        <thead style="background: rgba(255,255,255,0.05);">
+                            <tr>
+                                <th style="padding: 16px;">Capability</th>
+                                <th style="padding: 16px;">Placebo AI</th>
+                                <th style="padding: 16px;">Traditional LLM</th>
+                                <th style="padding: 16px;">Manual Search</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                <td style="padding: 16px;">Complex Layouts</td>
+                                <td style="padding: 16px; color: var(--primary);">✓ Vision-Aware</td>
+                                <td style="padding: 16px; opacity: 0.5;">✗ Text Only</td>
+                                <td style="padding: 16px;">✓ Yes</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                <td style="padding: 16px;">Citations</td>
+                                <td style="padding: 16px; color: var(--primary);">✓ Mandatory</td>
+                                <td style="padding: 16px; opacity: 0.5;">✗ Hallucinated</td>
+                                <td style="padding: 16px;">✓ Yes</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <div style="text-align: center; font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-family: 'Montserrat', sans-serif; line-height: 1.5;">
+                Disclaimer: All books used in this application belong to their respective authors and publishers. The author, publisher, and copyright owner reserve all rights. No ownership of book content is claimed by this application.
+            </div>
+        </main>
+    </div>
+</body>
+</html>

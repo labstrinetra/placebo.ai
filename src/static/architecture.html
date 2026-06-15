@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architecture | Placebo AI</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+    <link rel="shortcut icon" href="/static/favicon.ico">
+</head>
+<body>
+    <div id="video-container">
+        <video id="hero-video" autoplay loop muted playsinline>
+            <source src="/static/bg_video.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <div class="content-layer">
+        <nav>
+            <div class="logo-area" style="display: flex; align-items: center; gap: 12px;">
+                <img src="/static/logo.png" width="32" height="32" alt="Logo" style="filter: brightness(0) invert(1);">
+                <a href="/" class="logo">Placebo AI</a>
+            </div>
+            <div class="menu-items">
+                <a href="/" class="menu-item">Home</a>
+                <a href="/architecture" class="menu-item">Architecture</a>
+                <a href="/capabilities" class="menu-item">Capabilities</a>
+                <a href="/docs" class="menu-item">Docs</a>
+                <a href="/about" class="menu-item">About</a>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn-signup">Sign Up</button>
+                <button class="btn-login">Log In</button>
+            </div>
+        </nav>
+
+        <main class="info-content" style="padding: 120px 80px; max-width: 1200px; margin: 0 auto;">
+            <h1 style="font-size: 48px; margin-bottom: 24px;">System Architecture</h1>
+            <p class="subtitle" style="font-size: 20px; opacity: 0.8; margin-bottom: 60px;">How Placebo AI Ensures Factual Medical Responses through a Multi-Layered Pipeline.</p>
+
+            <div class="grid-layout" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                <div class="info-card" style="background: rgba(255,255,255,0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); padding: 40px; border-radius: 24px;">
+                    <h3 style="color: var(--primary); margin-bottom: 16px;">Layer 1: Multimodal Ingestion</h3>
+                    <p style="color: var(--white); line-height: 1.6; opacity: 0.9;">
+                        Extracts structured medical knowledge from unstructured PDFs and textbooks. Our custom Vision-Language Model is optimized for medical layouts, detecting text, tables, chemical formulas, and anatomical diagrams while preserving their semantic relationships.
+                    </p>
+                </div>
+
+                <div class="info-card" style="background: rgba(255,255,255,0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); padding: 40px; border-radius: 24px;">
+                    <h3 style="color: var(--primary); margin-bottom: 16px;">Layer 2: Vector Intelligence</h3>
+                    <p style="color: var(--white); line-height: 1.6; opacity: 0.9;">
+                        Converts medical data into 384-dimensional semantic vectors. Using FAISS indexing, we enable sub-millisecond retrieval of the most relevant knowledge chunks based on meaning, not just keywords.
+                    </p>
+                </div>
+
+                <div class="info-card" style="background: rgba(255,255,255,0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); padding: 40px; border-radius: 24px;">
+                    <h3 style="color: var(--primary); margin-bottom: 16px;">Layer 3: Grounded RAG Layer</h3>
+                    <p style="color: var(--white); line-height: 1.6; opacity: 0.9;">
+                        The heart of zero-hallucination AI. Generates answers strictly from retrieved context. Every statement is required to reference a source chunk, preventing the model from using training data.
+                    </p>
+                </div>
+
+                <div class="info-card" style="background: rgba(255,255,255,0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); padding: 40px; border-radius: 24px;">
+                    <h3 style="color: var(--primary); margin-bottom: 16px;">Layer 4: Structured Output</h3>
+                    <p style="color: var(--white); line-height: 1.6; opacity: 0.9;">
+                        Formats responses for professional medical use. Includes human-readable answers, structured JSON for API integration, and markdown reports with full attribution.
+                    </p>
+                </div>
+            </div>
+
+            <section style="margin-top: 80px;">
+                <h2 style="margin-bottom: 30px;">Architecture Principles</h2>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 20px; display: flex; align-items: flex-start; gap: 15px;">
+                        <span style="color: var(--primary); font-weight: bold;">01</span>
+                        <div>
+                            <strong style="display: block; font-size: 18px; margin-bottom: 4px;">Retrieval First, Generation Second</strong>
+                            <span style="opacity: 0.7;">We invert the typical LLM flow by prioritizing evidence retrieval as the anchor of the process.</span>
+                        </div>
+                    </li>
+                    <li style="margin-bottom: 20px; display: flex; align-items: flex-start; gap: 15px;">
+                        <span style="color: var(--primary); font-weight: bold;">02</span>
+                        <div>
+                            <strong style="display: block; font-size: 18px; margin-bottom: 4px;">Constraint-Based Generation</strong>
+                            <span style="opacity: 0.7;">Strict system prompts eliminate the degrees of freedom that allow hallucinations.</span>
+                        </div>
+                    </li>
+                    <li style="margin-bottom: 20px; display: flex; align-items: flex-start; gap: 15px;">
+                        <span style="color: var(--primary); font-weight: bold;">03</span>
+                        <div>
+                            <strong style="display: block; font-size: 18px; margin-bottom: 4px;">Transparency Through Citation</strong>
+                            <span style="opacity: 0.7;">Every factual claim is linked to a source page, making the system auditable and trustworthy.</span>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+
+            <div style="text-align: center; font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-family: 'Montserrat', sans-serif; line-height: 1.5;">
+                Disclaimer: All books used in this application belong to their respective authors and publishers. The author, publisher, and copyright owner reserve all rights. No ownership of book content is claimed by this application.
+            </div>
+        </main>
+    </div>
+</body>
+</html>

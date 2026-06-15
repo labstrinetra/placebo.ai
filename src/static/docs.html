@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theory | Placebo AI</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+    <link rel="shortcut icon" href="/static/favicon.ico">
+    <style>
+        .bento-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 24px;
+            margin-bottom: 80px;
+        }
+
+        .bento-item {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 32px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        .bento-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-8px);
+            border-color: var(--primary);
+        }
+
+        .bento-img-container {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .bento-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+            transition: transform 0.6s ease;
+        }
+
+        .bento-item:hover .bento-img-container img {
+            transform: scale(1.05);
+            opacity: 1;
+        }
+
+        .bento-content {
+            padding: 32px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .bento-tag {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--primary);
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .bento-title {
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--white);
+        }
+
+        .bento-desc {
+            font-size: 15px;
+            opacity: 0.7;
+            line-height: 1.6;
+            color: var(--white);
+        }
+
+        @media (max-width: 1024px) {
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="video-container">
+        <video id="hero-video" autoplay loop muted playsinline>
+            <source src="/static/bg_video.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <div class="content-layer">
+        <nav>
+            <div class="logo-area" style="display: flex; align-items: center; gap: 12px;">
+                <img src="/static/logo.png" width="32" height="32" alt="Logo" style="filter: brightness(0) invert(1);">
+                <a href="/" class="logo">Placebo AI</a>
+            </div>
+            <div class="menu-items">
+                <a href="/" class="menu-item">Home</a>
+                <a href="/architecture" class="menu-item">Architecture</a>
+                <a href="/capabilities" class="menu-item">Capabilities</a>
+                <a href="/docs" class="menu-item">Docs</a>
+                <a href="/about" class="menu-item">About</a>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn-signup">Sign Up</button>
+                <button class="btn-login">Log In</button>
+            </div>
+        </nav>
+
+        <main class="info-content" style="padding: 120px 80px; max-width: 1300px; margin: 0 auto;">
+            <!-- Header Section -->
+            <div style="text-align: center; margin-bottom: 80px;">
+                <h1 style="font-size: 56px; margin-bottom: 24px;">Theoretical Framework</h1>
+                <p class="subtitle"
+                    style="font-size: 22px; line-height: 1.6; opacity: 0.8; max-width: 800px; margin: 0 auto;">
+                    The Scientific Principles and Philosophical Pillars of Grounded Medical Intelligence.
+                </p>
+            </div>
+
+            <!-- Bento Grid 2x2 Pattern Section -->
+            <div class="bento-grid">
+                <!-- Row 1: Large (Left) - RAG Theory -->
+                <div class="bento-item">
+                    <div class="bento-img-container">
+                        <img src="/static/neural_nodes.png" alt="RAG Theory">
+                    </div>
+                    <div class="bento-content">
+                        <div class="bento-tag">Pillar I</div>
+                        <div class="bento-title">Decoupled Grounding</div>
+                        <div class="bento-desc">
+                            The theory of Absolute Grounding treats intelligence as a linguistic processor while
+                            externalizing knowledge. This ensures the AI is tethered to verified primary sources,
+                            decoupling reasoning from unreliable training memory.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 1: Small (Right) - Multimodal -->
+                <div class="bento-item">
+                    <div class="bento-img-container">
+                        <img src="/static/med_viz.png" alt="Multimodal Theory">
+                    </div>
+                    <div class="bento-content">
+                        <div class="bento-tag">Pillar II</div>
+                        <div class="bento-title">Visual Fusion</div>
+                        <div class="bento-desc">
+                            Mapping 2D spatial medical data (tables, charts) into a 1D semantic stream while preserving
+                            the logical relationships between visual evidence and textual clinical context.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 2: Large (Left) - Vector Space -->
+                <div class="bento-item">
+                    <div class="bento-img-container">
+                        <img src="/static/vector_mesh.png" alt="Vector Theory">
+                    </div>
+                    <div class="bento-content">
+                        <div class="bento-tag">Pillar III</div>
+                        <div class="bento-title">Semantic Geometry</div>
+                        <div class="bento-desc">
+                            Knowledge retrieval is a problem of high-dimensional distance. By mapping medical concepts
+                            into vector spaces, we can mathematically measure the proximity of intent, enabling
+                            true conceptual understanding.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 2: Small (Right) - Deterministic -->
+                <div class="bento-item">
+                    <div class="bento-img-container">
+                        <img src="/static/mol_struct.png" alt="Logic Theory">
+                    </div>
+                    <div class="bento-content">
+                        <div class="bento-tag">Pillar IV</div>
+                        <div class="bento-title">Inference Constraints</div>
+                        <div class="bento-desc">
+                            The elimination of hallucination through strict informational boundaries. If the truth set
+                            is not within the provided evidence, the system logic dictates an "unknown" state.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; font-size: 12px; color: rgba(255, 255, 255, 0.5); margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-family: 'Montserrat', sans-serif; line-height: 1.5;">
+                Disclaimer: All books used in this application belong to their respective authors and publishers. The author, publisher, and copyright owner reserve all rights. No ownership of book content is claimed by this application.
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

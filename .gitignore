@@ -1,0 +1,19 @@
+# Local configurations and credentials
+.env
+
+# Python byte-compilation and caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local vector store database (Commented out so we can deploy to HF Spaces)
+# vector_store/
+
+# Dynamic application files
+history.json
+node_modules/
+archive.zip
+db/
+data/
+scripts/brave_qa_profile/
+scripts/edge_qa_profile/
