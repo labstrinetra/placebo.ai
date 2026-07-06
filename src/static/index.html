@@ -641,47 +641,34 @@
             "Describe the physiological pathway of the Renin-Angiotensin-Aldosterone System (RAAS)."
         ];
 
-        function saveToHistory(query, answer = '', sources = []) {
-            const historyKey = activeUser ? `chat_history_${activeUser.id}` : 'chat_history_guest';
-            let history = JSON.parse(localStorage.getItem(historyKey) || '[]');
-            // Find if query exists, remove it (to bring to top)
-            history = history.filter(h => h.query !== query);
-            history.unshift({ 
-                query, 
-                answer, 
-                sources,
-                time: new Date().toLocaleString() 
-            });
-            history = history.slice(0, 20); // Keep last 20
-            localStorage.setItem(historyKey, JSON.stringify(history));
+        async function saveToHistory(query, answer = '', sources = []) {
+            if (!activeUser || !supabaseClient) return;
+            
+            try {
+                await supabaseClient.from('chat_history').insert({
+                    user_id: activeUser.id,
+                    query: query,
+                    answer: answer,
+                    sources: sources
+                });
+            } catch (error) {
+                console.error('Error saving chat history to Supabase:', error);
+            }
         }
 
         function displayStoredResult(item) {
             const queryHTML = `<div style="font-size: 16px; font-weight: 500; color: white; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1);"><span style="opacity: 0.5; font-size: 12px; display: block; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px;">You Asked:</span>${item.query}</div>`;
             
-            let galleryHTML = '<div class="source-images-gallery" style="display: flex; gap: 10px; margin-top: 15px; overflow-x: auto; padding-bottom: 10px;">';
             sourceList.innerHTML = '';
             item.sources.forEach(src => {
                 const tag = document.createElement('span');
                 tag.className = 'source-tag';
                 tag.innerText = `${src.book_name} (Pg ${src.page_number})`;
-                tag.onclick = () => {
-                    modalTitle.innerText = `${src.book_name} - Page ${src.page_number}`;
-                    modalImg.src = `/page_image?path=${encodeURIComponent(src.image_path)}`;
-                    pageModal.style.display = 'flex';
-                };
+                tag.style.cursor = 'default';
                 sourceList.appendChild(tag);
-                
-                galleryHTML += `
-                    <div style="flex: 0 0 auto; width: 250px; border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; overflow: hidden; background: rgba(0,0,0,0.2); cursor: pointer;" onclick="document.getElementById('modal-title').innerText='${src.book_name} - Page ${src.page_number}'; document.getElementById('page-preview-img').src='/page_image?path=${encodeURIComponent(src.image_path)}'; document.getElementById('page-modal').style.display='flex';">
-                        <div style="font-size: 10px; color: var(--primary); padding: 5px 8px; border-bottom: 1px solid rgba(16, 185, 129, 0.2); font-weight: 600; text-transform: uppercase;">Exact Page Reference</div>
-                        <img src="/page_image?path=${encodeURIComponent(src.image_path)}" style="width: 100%; height: auto; object-fit: contain; display: block;" alt="Reference Page">
-                    </div>
-                `;
             });
-            galleryHTML += '</div>';
             
-            responseText.innerHTML = queryHTML + DOMPurify.sanitize(marked.parse(item.answer)) + (item.sources.length > 0 ? galleryHTML : "");
+            responseText.innerHTML = queryHTML + DOMPurify.sanitize(applyMedicalTooltips(marked.parse(item.answer)), { ADD_ATTR: ['data-tooltip'] });
             
             responsePanel.style.display = 'flex';
             chatInput.value = item.query;
@@ -689,22 +676,43 @@
             window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         }
 
-        function openDrawer(type) {
+        async function openDrawer(type) {
             drawerItems.innerHTML = '';
             if (type === 'history') {
                 drawerTitle.innerText = 'History';
-                const historyKey = activeUser ? `chat_history_${activeUser.id}` : 'chat_history_guest';
-                const history = JSON.parse(localStorage.getItem(historyKey) || '[]');
-                if (history.length === 0) {
-                    drawerItems.innerHTML = '<div style="opacity: 0.5; text-align: center; margin-top: 20px;">No history yet.</div>';
+                
+                if (!activeUser || !supabaseClient) {
+                    drawerItems.innerHTML = '<div style="opacity: 0.5; text-align: center; margin-top: 20px;">Please log in to view history.</div>';
+                    sideDrawer.classList.add('open');
+                    return;
                 }
-                history.forEach(item => {
-                    const el = document.createElement('div');
-                    el.className = 'drawer-item';
-                    el.innerHTML = `${item.query} <span class="time">${item.time}</span>`;
-                    el.onclick = () => displayStoredResult(item);
-                    drawerItems.appendChild(el);
-                });
+
+                drawerItems.innerHTML = '<div style="opacity: 0.5; text-align: center; margin-top: 20px;">Loading...</div>';
+                sideDrawer.classList.add('open');
+
+                try {
+                    const { data: history, error } = await supabaseClient
+                        .from('chat_history')
+                        .select('*')
+                        .order('created_at', { ascending: false })
+                        .limit(20);
+
+                    drawerItems.innerHTML = '';
+                    if (error || !history || history.length === 0) {
+                        drawerItems.innerHTML = '<div style="opacity: 0.5; text-align: center; margin-top: 20px;">No history yet.</div>';
+                    } else {
+                        history.forEach(item => {
+                            const el = document.createElement('div');
+                            el.className = 'drawer-item';
+                            const dateStr = new Date(item.created_at).toLocaleDateString();
+                            el.innerHTML = `${item.query} <span class="time">${dateStr}</span>`;
+                            el.onclick = () => displayStoredResult(item);
+                            drawerItems.appendChild(el);
+                        });
+                    }
+                } catch (e) {
+                    drawerItems.innerHTML = '<div style="color: #ef4444; text-align: center; margin-top: 20px;">Failed to load history.</div>';
+                }
             } else {
                 drawerTitle.innerText = 'Prompts';
                 PREDEFINED_PROMPTS.forEach(prompt => {
