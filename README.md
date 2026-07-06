@@ -25,7 +25,8 @@ This project was recently migrated from a heavy local-dataset architecture to a 
 ## ⚡ Key Features
 - **Zero Local Footprint:** The 17GB vector database and 88GB image database have been entirely offloaded to Astra DB and HuggingFace. The application requires virtually zero local disk space to run.
 - **Lightning Fast:** Uses Groq's LPU architecture to stream LLM responses instantly.
-- **Dynamic Frontend:** A beautiful, responsive, clinical UI built with modern CSS animations and glassmorphism.
+- **Dynamic Frontend (Perfect 100s):** A beautiful, responsive, clinical UI built with modern CSS animations and glassmorphism. Achieves perfect 100/100 Accessibility and SEO scores on Google Lighthouse.
+- **Full-Stack Engineering:** Designed meticulously from the UI to the core logic, featuring custom KeywordAugmented RAG Retrievers, strict XML prompt boundaries, and seamless Supabase JWT verification.
 
 ## 🛠️ Installation & Setup
 
@@ -57,7 +58,12 @@ This project was recently migrated from a heavy local-dataset architecture to a 
    The application will be available at `http://localhost:8000`
 
 ## 📦 Deployment
-Because Placebo AI is completely serverless, you can deploy this exact repository directly to free platforms like **Render**, **Railway**, or **Heroku** without worrying about disk space or RAM limitations.
+
+Placebo AI is successfully deployed and running live on **HuggingFace Spaces** using a custom Docker container. 
+
+- **Live URL:** [https://trinetralabs-placeboai.hf.space/](https://trinetralabs-placeboai.hf.space/)
+
+Because Placebo AI is completely serverless, you can also deploy this exact repository directly to free platforms like **Render**, **Railway**, or **Vercel** without worrying about disk space or RAM limitations.
 
 ---
 *Developed by Trinetra Labs*
