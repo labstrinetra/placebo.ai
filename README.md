@@ -1,3 +1,13 @@
+---
+title: Placebo AI
+emoji: 🧠
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # Placebo AI - Medical Intelligence Platform
 
 Placebo AI is a high-performance, cloud-native medical artificial intelligence platform. It provides instant, medically grounded answers utilizing a massive database of over 1.3 million medical text vectors, powered by a completely serverless and lightweight architecture.
