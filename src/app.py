@@ -225,7 +225,7 @@ async def chat(query: Query, user: dict = Depends(get_current_user)):
             context = "\n\n".join(context_chunks)
             
             # Combine Security Guardrails with Clinical Context using Strict XML Boundaries
-            from prompts import SYSTEM_PROMPT_SECURITY
+            from src.prompts import SYSTEM_PROMPT_SECURITY
             secured_context = f"""
 {SYSTEM_PROMPT_SECURITY}
 
