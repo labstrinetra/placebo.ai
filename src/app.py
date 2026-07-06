@@ -137,7 +137,7 @@ async def get_page_image(path: str):
     
     # Redirect directly to your free HuggingFace Dataset file
     # This completely removes the need for your app to store the 88GB data.zip file!
-    hf_url = f"https://huggingface.co/datasets/smart-models/Placebo_AI_DB/resolve/main/data/{filename}"
+    hf_url = f"https://huggingface.co/datasets/TrinetraLabs/Placebo_AI_DB/resolve/main/data/{filename}"
     
     return RedirectResponse(url=hf_url)
 
