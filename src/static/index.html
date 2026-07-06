@@ -1188,15 +1188,6 @@
                     setTimeout(() => { feedbackLabel.innerText = "Was this helpful?"; }, 3000);
                 }
             });
-        }
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <style>
-        .medical-tooltip { border-bottom: 1px dotted var(--primary); cursor: help; position: relative; }
-        .medical-tooltip:hover::after { content: attr(data-tooltip); position: absolute; bottom: 100%; left: 0; background: #333; color: #fff; padding: 5px; border-radius: 4px; width: 200px; z-index: 1000; font-size: 12px; }
-        .export-pdf-btn { display: flex; align-items: center; gap: 8px; margin-top: 15px; background: var(--primary); color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; }
-    </style>
-    <script>
         const medicalDictionary = {
             "myocardial infarction": "A heart attack; tissue death of the heart muscle due to lack of blood supply.",
             "hypertension": "High blood pressure, which can lead to heart disease and stroke.",
@@ -1215,10 +1206,15 @@
             return modifiedHtml;
         }
 
-        const sendBtn = document.getElementById('send-btn');
         sendBtn.addEventListener('click', handleSend);
         chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSend(); });
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        .medical-tooltip { border-bottom: 1px dotted var(--primary); cursor: help; position: relative; }
+        .medical-tooltip:hover::after { content: attr(data-tooltip); position: absolute; bottom: 100%; left: 0; background: #333; color: #fff; padding: 5px; border-radius: 4px; width: 200px; z-index: 1000; font-size: 12px; }
+        .export-pdf-btn { display: flex; align-items: center; gap: 8px; margin-top: 15px; background: var(--primary); color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; }
+    </style>
     
     <!-- Anti-Copy, Anti-Paste, and Anti-Screenshot Protections -->
     <script>
