@@ -84,7 +84,7 @@ class MedicalChatbot:
 
         # Custom Retriever Logic for Exhaustive Reference Search
         class KeywordAugmentedRetriever(BaseRetriever):
-            vectorstore: Chroma
+            vectorstore: AstraDBVectorStore
             k: int = 10
             track_filter_state: str = "unified"
             
