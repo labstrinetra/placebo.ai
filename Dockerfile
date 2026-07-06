@@ -1,20 +1,19 @@
 # Use the official lightweight Python image
 FROM python:3.11-slim
 
-# Set the working directory inside the container
+# HuggingFace Spaces requires a non-root user for security
+RUN useradd -m -u 1000 user
+USER user
+ENV PATH="/home/user/.local/bin:$PATH"
+
 WORKDIR /app
 
-# Copy the requirements file and install dependencies
-COPY requirements.txt .
+# Copy requirements and install
+COPY --chown=user ./requirements.txt requirements.txt
+RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
-# Install dependencies (no cache to keep image small)
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy the entire app with proper user permissions
+COPY --chown=user . /app
 
-# Copy the entire app into the container
-COPY . .
-
-# Expose the port HuggingFace Spaces expects (7860)
-EXPOSE 7860
-
-# Run the FastAPI server on the HuggingFace Spaces port
+# Run the FastAPI server on port 7860
 CMD ["uvicorn", "src.app:app", "--host", "0.0.0.0", "--port", "7860"]
