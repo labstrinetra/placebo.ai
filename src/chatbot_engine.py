@@ -1,6 +1,8 @@
 from langchain_groq import ChatGroq
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_astradb import AstraDBVectorStore
+import os
+import re
 
 # Astra DB Constants (Now securely loaded from environment variables)
 ASTRA_DB_API_ENDPOINT = os.getenv("ASTRA_DB_API_ENDPOINT")
@@ -13,8 +15,6 @@ from langchain_core.retrievers import BaseRetriever
 from langchain_core.callbacks import CallbackManagerForRetrieverRun
 from typing import List
 from langchain_core.documents import Document
-import os
-import re
 
 class MedicalChatbot:
     def __init__(self):
