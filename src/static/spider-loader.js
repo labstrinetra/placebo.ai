@@ -159,7 +159,7 @@ function revealWebsite() {
         setTimeout(() => {
             loader.style.display = 'none';
             mainContent.style.opacity = '1';
-            mainContent.style.pointerEvents = 'all';
+            mainContent.style.pointerEvents = 'auto';
         }, 1000);
     }
 }

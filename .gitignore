@@ -1,19 +1,32 @@
-# Local configurations and credentials
+# Environments
 .env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
 
-# Python byte-compilation and caches
+# Data Files & Heavy Assets (DO NOT PUSH TO GITHUB)
+data/
+db/
+*.zip
+*.tar
+*.gz
+*.sqlite3
+
+# Python Cache
 __pycache__/
 *.py[cod]
 *$py.class
 
-# Local vector store database (Commented out so we can deploy to HF Spaces)
-# vector_store/
+# OS Files
+.DS_Store
+Thumbs.db
 
-# Dynamic application files
-history.json
-node_modules/
-archive.zip
-db/
-data/
-scripts/brave_qa_profile/
-scripts/edge_qa_profile/
+# Other
+upload_error.txt
+upload_progress.txt
+zip_progress.txt
+build/
+PlaceboAI.spec

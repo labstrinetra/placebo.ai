@@ -660,7 +660,7 @@
                 sourceList.appendChild(tag);
                 
                 galleryHTML += `
-                    <div style="flex: 0 0 auto; width: 250px; border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; overflow: hidden; background: rgba(0,0,0,0.2); cursor: pointer;" onclick="document.getElementById('modal-title').innerText='${src.book_name} - Page ${src.page_number}'; document.getElementById('modal-img').src='/page_image?path=${encodeURIComponent(src.image_path)}'; document.getElementById('page-modal').style.display='flex';">
+                    <div style="flex: 0 0 auto; width: 250px; border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; overflow: hidden; background: rgba(0,0,0,0.2); cursor: pointer;" onclick="document.getElementById('modal-title').innerText='${src.book_name} - Page ${src.page_number}'; document.getElementById('page-preview-img').src='/page_image?path=${encodeURIComponent(src.image_path)}'; document.getElementById('page-modal').style.display='flex';">
                         <div style="font-size: 10px; color: var(--primary); padding: 5px 8px; border-bottom: 1px solid rgba(16, 185, 129, 0.2); font-weight: 600; text-transform: uppercase;">Exact Page Reference</div>
                         <img src="/page_image?path=${encodeURIComponent(src.image_path)}" style="width: 100%; height: auto; object-fit: contain; display: block;" alt="Reference Page">
                     </div>
@@ -1040,7 +1040,7 @@
                                     
                                     // Auto-embed the exact image directly in the chat
                                     sourceGalleryHTML += `
-                                        <div style="flex: 0 0 auto; width: 250px; border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; overflow: hidden; background: rgba(0,0,0,0.2); cursor: pointer;" onclick="document.getElementById('modal-title').innerText='${src.book_name} - Page ${src.page_number}'; document.getElementById('modal-img').src='/page_image?path=${encodeURIComponent(src.image_path)}'; document.getElementById('page-modal').style.display='flex';">
+                                        <div style="flex: 0 0 auto; width: 250px; border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; overflow: hidden; background: rgba(0,0,0,0.2); cursor: pointer;" onclick="document.getElementById('modal-title').innerText='${src.book_name} - Page ${src.page_number}'; document.getElementById('page-preview-img').src='/page_image?path=${encodeURIComponent(src.image_path)}'; document.getElementById('page-modal').style.display='flex';">
                                             <div style="font-size: 10px; color: var(--primary); padding: 5px 8px; border-bottom: 1px solid rgba(16, 185, 129, 0.2); font-weight: 600; text-transform: uppercase;">Exact Page Reference</div>
                                             <img src="/page_image?path=${encodeURIComponent(src.image_path)}" style="width: 100%; height: auto; object-fit: contain; display: block;" alt="Reference Page">
                                         </div>

@@ -1,6 +1,11 @@
 from langchain_groq import ChatGroq
 from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_chroma import Chroma
+from langchain_astradb import AstraDBVectorStore
+
+# Astra DB Constants
+ASTRA_DB_API_ENDPOINT = "https://3e33f29f-e580-478c-a815-000e7bc734c7-us-east-2.apps.astra.datastax.com"
+ASTRA_DB_APPLICATION_TOKEN = "AstraCS:fOGHSlgSpeEFPwZFXFPxPjGw:ac67504cf6ed2d20462ad5f92d5b4626156fe3adf48a596c204476c7d16d53db"
+ASTRA_COLLECTION_NAME = "medical_documents"
 from langchain_classic.chains import ConversationalRetrievalChain
 from langchain_classic.memory import ConversationBufferMemory
 from langchain_core.prompts import PromptTemplate
@@ -12,34 +17,23 @@ import os
 import re
 
 class MedicalChatbot:
-    def __init__(self, vector_store_path=None):
-        if vector_store_path is None:
-            import os
-            # Intelligently scan for the database (Local vs Hugging Face Dataset Mounts)
-            possible_paths = [
-                os.path.join(os.path.dirname(os.path.dirname(__file__)), "db", "vector_store"),
-                "/data/smart-models/Placebo_AI_DB/db/vector_store",
-                "/data/db/vector_store"
-            ]
-            
-            vector_store_path = possible_paths[0] # Default fallback
-            for p in possible_paths:
-                if os.path.exists(p):
-                    vector_store_path = p
-                    break
+    def __init__(self):
+        print("Initializing Cloud-Native Medical Chatbot Engine...")
+        
         self.embeddings = HuggingFaceEmbeddings(
             model_name="nomic-ai/nomic-embed-text-v1.5",
             model_kwargs={'trust_remote_code': True}
         )
         
-        # Connect to existing vector store
-        if not os.path.exists(vector_store_path):
-            raise FileNotFoundError(f"Vector store not found at {vector_store_path}. Please run indexer.py first.")
-            
-        self.vectorstore = Chroma(
-            persist_directory=vector_store_path,
-            embedding_function=self.embeddings
+        # Connect directly to Astra DB (No local database required!)
+        print("Connecting to Astra Vector Cloud...")
+        self.vectorstore = AstraDBVectorStore(
+            embedding=self.embeddings,
+            collection_name=ASTRA_COLLECTION_NAME,
+            api_endpoint=ASTRA_DB_API_ENDPOINT,
+            token=ASTRA_DB_APPLICATION_TOKEN,
         )
+        print("Astra DB Connected Successfully!")
         
         # Use Llama 3 for grounded inference via Groq
         self.llm = ChatGroq(
