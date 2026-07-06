@@ -128,18 +128,27 @@ async def get_config():
     }
 
 @app.get("/page_image")
-async def get_page_image(path: str):
-    from fastapi.responses import RedirectResponse
+def get_page_image(path: str):
     import os
+    import requests
+    from fastapi.responses import Response, HTTPException
     
-    # Extract just the file name (e.g., page_002.png)
     filename = os.path.basename(path.replace("\\", "/"))
-    
-    # Redirect directly to your free HuggingFace Dataset file
-    # This completely removes the need for your app to store the 88GB data.zip file!
     hf_url = f"https://huggingface.co/datasets/TrinetraLabs/Placebo_AI_DB/resolve/main/data/{filename}"
     
-    return RedirectResponse(url=hf_url)
+    # API Masking: Proxy the image request through the backend so the client never sees the HuggingFace URL
+    headers = {}
+    hf_token = os.getenv("HF_TOKEN")
+    if hf_token:
+        headers["Authorization"] = f"Bearer {hf_token}"
+        
+    try:
+        r = requests.get(hf_url, headers=headers)
+        if r.status_code != 200:
+            raise HTTPException(status_code=r.status_code, detail="Image not found on downstream server")
+        return Response(content=r.content, media_type=r.headers.get("content-type", "image/png"))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Error masking image API")
 
 import time
 
