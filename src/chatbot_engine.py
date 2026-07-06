@@ -2,9 +2,9 @@ from langchain_groq import ChatGroq
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_astradb import AstraDBVectorStore
 
-# Astra DB Constants
-ASTRA_DB_API_ENDPOINT = "https://3e33f29f-e580-478c-a815-000e7bc734c7-us-east-2.apps.astra.datastax.com"
-ASTRA_DB_APPLICATION_TOKEN = "AstraCS:fOGHSlgSpeEFPwZFXFPxPjGw:ac67504cf6ed2d20462ad5f92d5b4626156fe3adf48a596c204476c7d16d53db"
+# Astra DB Constants (Now securely loaded from environment variables)
+ASTRA_DB_API_ENDPOINT = os.getenv("ASTRA_DB_API_ENDPOINT")
+ASTRA_DB_APPLICATION_TOKEN = os.getenv("ASTRA_DB_APPLICATION_TOKEN")
 ASTRA_COLLECTION_NAME = "medical_documents"
 from langchain_classic.chains import ConversationalRetrievalChain
 from langchain_classic.memory import ConversationBufferMemory
