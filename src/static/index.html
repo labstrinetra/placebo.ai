@@ -668,7 +668,7 @@
                 sourceList.appendChild(tag);
             });
             
-            responseText.innerHTML = queryHTML + DOMPurify.sanitize(applyMedicalTooltips(marked.parse(item.answer)), { ADD_ATTR: ['data-tooltip'] });
+            responseText.innerHTML = queryHTML + DOMPurify.sanitize(marked.parse(item.answer));
             
             responsePanel.style.display = 'flex';
             chatInput.value = item.query;
@@ -1054,35 +1054,9 @@
                                 });
                                 
                                 // Manually update the view since sources arrive last in the stream now
-                                const finalHtml = DOMPurify.sanitize(applyMedicalTooltips(marked.parse(fullAnswer)), { ADD_ATTR: ['data-tooltip'] });
+                                const finalHtml = DOMPurify.sanitize(marked.parse(fullAnswer));
                                 responseText.innerHTML = queryHTML + badgeHTML + finalHtml;
-                                
-                                // Add PDF Export Button
-                                const pdfBtn = document.createElement('button');
-                                pdfBtn.className = 'export-pdf-btn';
-                                pdfBtn.innerHTML = `
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                                    Export Clinical Report
-                                `;
-                                pdfBtn.onclick = () => {
-                                    pdfBtn.innerHTML = "Generating PDF...";
-                                    const opt = {
-                                        margin: 1,
-                                        filename: 'Clinical_Report.pdf',
-                                        image: { type: 'jpeg', quality: 0.98 },
-                                        html2canvas: { scale: 2, useCORS: true },
-                                        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-                                    };
-                                    const elementToExport = responseText.cloneNode(true);
-                                    elementToExport.removeChild(elementToExport.lastChild); // Remove the button from the PDF
-                                    elementToExport.style.color = '#000'; // Make text black for PDF
-                                    elementToExport.style.background = '#fff';
-                                    elementToExport.style.padding = '20px';
-                                    html2pdf().set(opt).from(elementToExport).save().then(() => {
-                                        pdfBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> Export Clinical Report`;
-                                    });
-                                };
-                                responseText.appendChild(pdfBtn);
+
                                 
                                 window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
                                 
@@ -1091,7 +1065,7 @@
                                 fullAnswer = ""; // Reset buffer
                             } else if (json.type === 'content') {
                                 fullAnswer += json.data;
-                                const parsedHtml = DOMPurify.sanitize(applyMedicalTooltips(marked.parse(fullAnswer)), { ADD_ATTR: ['data-tooltip'] });
+                                const parsedHtml = DOMPurify.sanitize(marked.parse(fullAnswer));
                                 responseText.innerHTML = queryHTML + badgeHTML + parsedHtml;
                                 window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
                             }
@@ -1189,33 +1163,12 @@
             });
         }
         
-        const medicalDictionary = {
-            "myocardial infarction": "A heart attack; tissue death of the heart muscle due to lack of blood supply.",
-            "hypertension": "High blood pressure, which can lead to heart disease and stroke.",
-            "tachycardia": "A rapid heart rate, usually defined as greater than 100 beats per minute.",
-            "ischemia": "An inadequate blood supply to an organ or part of the body, especially the heart muscles.",
-            "hyperlipidemia": "High levels of fat particles (lipids) in the blood.",
-            "arrhythmia": "An irregular heartbeat or abnormal heart rhythm."
-        };
 
-        function applyMedicalTooltips(html) {
-            let modifiedHtml = html;
-            for (const [term, definition] of Object.entries(medicalDictionary)) {
-                const regex = new RegExp(`\\b(${term})\\b`, 'gi');
-                modifiedHtml = modifiedHtml.replace(regex, `<span class="medical-tooltip" data-tooltip="${definition}">$1</span>`);
-            }
-            return modifiedHtml;
-        }
 
         sendBtn.addEventListener('click', handleSend);
         chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSend(); });
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <style>
-        .medical-tooltip { border-bottom: 1px dotted var(--primary); cursor: help; position: relative; }
-        .medical-tooltip:hover::after { content: attr(data-tooltip); position: absolute; bottom: 100%; left: 0; background: #333; color: #fff; padding: 5px; border-radius: 4px; width: 200px; z-index: 1000; font-size: 12px; }
-        .export-pdf-btn { display: flex; align-items: center; gap: 8px; margin-top: 15px; background: var(--primary); color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; }
-    </style>
+
     
     <!-- Anti-Copy, Anti-Paste, and Anti-Screenshot Protections -->
     <script>
