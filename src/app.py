@@ -127,28 +127,6 @@ async def get_config():
         "supabase_anon_key": os.getenv("SUPABASE_ANON_KEY", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.your-anon-key-placeholder")
     }
 
-@app.get("/page_image")
-def get_page_image(path: str):
-    import os
-    import requests
-    from fastapi.responses import Response, HTTPException
-    
-    filename = os.path.basename(path.replace("\\", "/"))
-    hf_url = f"https://huggingface.co/datasets/TrinetraLabs/Placebo_AI_DB/resolve/main/data/{filename}"
-    
-    # API Masking: Proxy the image request through the backend so the client never sees the HuggingFace URL
-    headers = {}
-    hf_token = os.getenv("HF_TOKEN")
-    if hf_token:
-        headers["Authorization"] = f"Bearer {hf_token}"
-        
-    try:
-        r = requests.get(hf_url, headers=headers)
-        if r.status_code != 200:
-            raise HTTPException(status_code=r.status_code, detail="Image not found on downstream server")
-        return Response(content=r.content, media_type=r.headers.get("content-type", "image/png"))
-    except Exception as e:
-        raise HTTPException(status_code=500, detail="Error masking image API")
 
 import time
 

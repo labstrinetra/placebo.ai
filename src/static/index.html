@@ -1026,40 +1026,25 @@
                             const json = JSON.parse(line);
                             if (json.type === 'sources') {
                                 sources = json.data;
-                                // Create a visual gallery for the images inline
-                                sourceGalleryHTML = '<div class="source-images-gallery" style="display: flex; gap: 10px; margin-top: 15px; overflow-x: auto; padding-bottom: 10px;">';
                                 sources.forEach(src => {
-                                    // Keep the clickable tags for history
+                                    // Keep the static tags for history, but disable the image modal
                                     const tag = document.createElement('span');
                                     tag.className = 'source-tag';
                                     tag.innerText = `${src.book_name} (Pg ${src.page_number})`;
-                                    tag.onclick = () => {
-                                        modalTitle.innerText = `${src.book_name} - Page ${src.page_number}`;
-                                        modalImg.src = `/page_image?path=${encodeURIComponent(src.image_path)}`;
-                                        pageModal.style.display = 'flex';
-                                    };
+                                    tag.style.cursor = 'default';
                                     sourceList.appendChild(tag);
-                                    
-                                    // Auto-embed the exact image directly in the chat
-                                    sourceGalleryHTML += `
-                                        <div style="flex: 0 0 auto; width: 250px; border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; overflow: hidden; background: rgba(0,0,0,0.2); cursor: pointer;" onclick="document.getElementById('modal-title').innerText='${src.book_name} - Page ${src.page_number}'; document.getElementById('page-preview-img').src='/page_image?path=${encodeURIComponent(src.image_path)}'; document.getElementById('page-modal').style.display='flex';">
-                                            <div style="font-size: 10px; color: var(--primary); padding: 5px 8px; border-bottom: 1px solid rgba(16, 185, 129, 0.2); font-weight: 600; text-transform: uppercase;">Exact Page Reference</div>
-                                            <img src="/page_image?path=${encodeURIComponent(src.image_path)}" style="width: 100%; height: auto; object-fit: contain; display: block;" alt="Reference Page">
-                                        </div>
-                                    `;
                                 });
-                                sourceGalleryHTML += '</div>';
                                 
                                 // Manually update the view since sources arrive last in the stream now
-                                responseText.innerHTML = queryHTML + badgeHTML + DOMPurify.sanitize(marked.parse(fullAnswer)) + sourceGalleryHTML;
+                                responseText.innerHTML = queryHTML + badgeHTML + DOMPurify.sanitize(marked.parse(fullAnswer));
                                 window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
                                 
                             } else if (json.type === 'start_answer') {
-                                responseText.innerHTML = queryHTML + badgeHTML + sourceGalleryHTML;
+                                responseText.innerHTML = queryHTML + badgeHTML;
                                 fullAnswer = ""; // Reset buffer
                             } else if (json.type === 'content') {
                                 fullAnswer += json.data;
-                                responseText.innerHTML = queryHTML + badgeHTML + DOMPurify.sanitize(marked.parse(fullAnswer)) + sourceGalleryHTML;
+                                responseText.innerHTML = queryHTML + badgeHTML + DOMPurify.sanitize(marked.parse(fullAnswer));
                                 window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
                             }
                         } catch (e) { }
