@@ -96,19 +96,16 @@ class MedicalChatbot:
             def get_relevant_documents_with_filter(
                 self, query: str, track_filter: str = "unified"
             ) -> List[Document]:
-                # Build filter dictionary
-                filter_dict = None
                 if track_filter == "mbbs":
-                    filter_dict = {"track": "mbbs"}
+                    return self.vectorstore.similarity_search(query, k=self.k, filter={"track": "mbbs"})
                 elif track_filter == "pharmacy":
-                    filter_dict = {"track": "pharmacy"}
-                
-                # 1. Vector Search (MMR for diversity)
-                docs = self.vectorstore.max_marginal_relevance_search(
-                    query, k=self.k, fetch_k=50, lambda_mult=0.3, filter=filter_dict
-                )
-                                    
-                return docs
+                    # Pharmacy docs are missing the track field in AstraDB due to ingestion error.
+                    # Fetch extra docs and post-filter to exclude "mbbs" track.
+                    docs = self.vectorstore.similarity_search(query, k=30)
+                    pharmacy_docs = [d for d in docs if d.metadata.get("track") != "mbbs"]
+                    return pharmacy_docs[:self.k]
+                else:
+                    return self.vectorstore.similarity_search(query, k=self.k)
 
         self.custom_retriever = KeywordAugmentedRetriever(vectorstore=self.vectorstore, k=10)
 

@@ -28,14 +28,8 @@ def get_current_user(request: Request):
     token = auth_header.split(" ")[1]
 
     try:
-        # Standard HS256 JWT decoding
-        if SUPABASE_JWT_SECRET == "your-supabase-jwt-secret-key-placeholder":
-            # Local development fallback: trust token without signature verification if secret is missing
-            payload = jwt.decode(token, options={"verify_signature": False, "verify_aud": False})
-            return payload
-            
         try:
-            # Fallback for legacy HS256 keys if provided
+            # Enforce signature verification even in local development to prevent broken authentication
             payload = jwt.decode(token, SUPABASE_JWT_SECRET, algorithms=["HS256"], options={"verify_aud": False})
             return payload
         except Exception:
@@ -80,6 +74,27 @@ async def lifespan(app: FastAPI):
 
 # Disable default docs to allow our custom /docs route to work
 app = FastAPI(docs_url=None, redoc_url=None, lifespan=lifespan)
+
+from fastapi.middleware.cors import CORSMiddleware
+
+# Security Headers Middleware
+@app.middleware("http")
+async def add_security_headers(request: Request, call_next):
+    response = await call_next(request)
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+    return response
+
+# CORS Middleware for strict origin policy
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[os.getenv("FRONTEND_URL", "http://localhost:8000")],
+    allow_credentials=True,
+    allow_methods=["GET", "POST"],
+    allow_headers=["Authorization", "Content-Type"],
+)
 
 # Setup static files
 import os

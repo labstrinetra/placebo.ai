@@ -632,14 +632,13 @@
         const drawerTitle = document.getElementById('drawer-title');
         const drawerItems = document.getElementById('drawer-items');
 
-        const PREDEFINED_PROMPTS = [
-            "Explain the clinical presentation, diagnosis, and surgical management of acute appendicitis.",
-            "What are the histological features of a myocardial infarction across different time frames?",
-            "Explain the mechanism of action, pharmacokinetics, and adverse effects of Aspirin.",
-            "What is the principle behind Non-aqueous Titrations and which indicators are used?",
-            "Explain Type II Diabetes Mellitus, including its pathophysiology and the pharmacological management using Metformin.",
-            "Describe the physiological pathway of the Renin-Angiotensin-Aldosterone System (RAAS)."
-        ];
+        let PREDEFINED_PROMPTS = [];
+        
+        // Fetch external configuration for medical terminology / prompts
+        fetch('/static/prompts.json')
+            .then(res => res.json())
+            .then(data => PREDEFINED_PROMPTS = data)
+            .catch(err => console.error("Failed to load prompts config:", err));
 
         async function saveToHistory(query, answer = '', sources = []) {
             if (!activeUser || !supabaseClient) return;
@@ -657,7 +656,8 @@
         }
 
         function displayStoredResult(item) {
-            const queryHTML = `<div style="font-size: 16px; font-weight: 500; color: white; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1);"><span style="opacity: 0.5; font-size: 12px; display: block; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px;">You Asked:</span>${item.query}</div>`;
+            const sanitizedQuery = DOMPurify.sanitize(item.query);
+            const queryHTML = `<div style="font-size: 16px; font-weight: 500; color: white; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1);"><span style="opacity: 0.5; font-size: 12px; display: block; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px;">You Asked:</span>${sanitizedQuery}</div>`;
             
             sourceList.innerHTML = '';
             item.sources.forEach(src => {
@@ -705,7 +705,7 @@
                             const el = document.createElement('div');
                             el.className = 'drawer-item';
                             const dateStr = new Date(item.created_at).toLocaleDateString();
-                            el.innerHTML = `${item.query} <span class="time">${dateStr}</span>`;
+                            el.innerHTML = `${DOMPurify.sanitize(item.query)} <span class="time">${dateStr}</span>`;
                             el.onclick = () => displayStoredResult(item);
                             drawerItems.appendChild(el);
                         });
@@ -994,7 +994,8 @@
             if (activeMode === "mbbs") modeDisplay = "Dx(MBBS) Knowledge Base";
             if (activeMode === "pharmacy") modeDisplay = "Rx(Pharmacy) Knowledge Base";
             
-            const queryHTML = `<div style="font-size: 16px; font-weight: 500; color: white; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1);"><span style="opacity: 0.5; font-size: 12px; display: block; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px;">You Asked:</span>${message}</div>`;
+            const sanitizedMessage = DOMPurify.sanitize(message);
+            const queryHTML = `<div style="font-size: 16px; font-weight: 500; color: white; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1);"><span style="opacity: 0.5; font-size: 12px; display: block; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px;">You Asked:</span>${sanitizedMessage}</div>`;
             const badgeHTML = `<div style="font-size: 11px; color: var(--primary); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; border-left: 2px solid var(--primary); padding-left: 8px;">Response from ${modeDisplay}</div>`;
             
             responseText.innerHTML = queryHTML + badgeHTML + `

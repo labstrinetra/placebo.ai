@@ -68,8 +68,9 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px 120px;
+    padding: clamp(12px, 2vh, 16px) clamp(16px, 5vw, 120px);
     background: transparent;
+    width: 100%;
 }
 
 .logo {
@@ -109,8 +110,9 @@ nav {
 }
 
 .btn-signup {
-    width: 101px;
-    height: 40px;
+    min-width: 101px;
+    min-height: 44px;
+    padding: 0 16px;
     background: var(--primary);
     color: var(--black);
     border: none;
@@ -120,6 +122,9 @@ nav {
     cursor: pointer;
     box-shadow: 0 0 15px var(--primary-glow);
     transition: transform 0.2s, background 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn-signup:hover {
@@ -128,8 +133,9 @@ nav {
 }
 
 .btn-login {
-    width: 101px;
-    height: 40px;
+    min-width: 101px;
+    min-height: 44px;
+    padding: 0 16px;
     background: transparent;
     color: var(--white);
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -138,6 +144,9 @@ nav {
     font-weight: 500;
     cursor: pointer;
     transition: background 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn-login:hover {
@@ -150,9 +159,10 @@ nav {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: calc(60px - 50px); /* 60px gap - 50px negative margin */
-    padding: 0 120px;
+    margin-top: calc(clamp(20px, 5vh, 60px) - 50px);
+    padding: 0 clamp(16px, 5vw, 120px);
     text-align: center;
+    width: 100%;
 }
 
 /* Badge */
@@ -190,23 +200,23 @@ nav {
 h1 {
     font-family: 'Surgena', serif;
     font-weight: 400;
-    font-size: 104px;
+    font-size: clamp(40px, 8vw, 104px);
     letter-spacing: -1px;
     line-height: 0.9;
     color: var(--white);
-    margin-bottom: 24px;
+    margin-bottom: clamp(16px, 2vh, 24px);
 }
 
 .subtitle {
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
-    font-size: 18px;
+    font-size: clamp(14px, 2vw, 18px);
     line-height: 1.6;
     letter-spacing: 0.2px;
     color: var(--gray-text);
-    max-width: 736px;
-    width: 542px;
-    margin-bottom: 44px;
+    width: 100%;
+    max-width: 542px;
+    margin-bottom: clamp(24px, 4vh, 44px);
 }
 
 /* Search Input Box */
@@ -749,65 +759,105 @@ a:focus-visible {
 }
 
 /* --- RESPONSIVE MEDIA QUERIES --- */
+
+/* Responsive tables for Markdown output */
+.response-content table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+}
+
 @media (max-width: 1024px) {
-    nav {
-        padding: 16px 48px;
-    }
-    .hero-content {
-        padding: 0 48px;
-    }
-    .info-content {
-        padding: 80px 48px !important;
-    }
-    h1 {
-        font-size: 72px;
+    .menu-items {
+        gap: 16px;
     }
 }
 
 @media (max-width: 768px) {
-    nav {
-        padding: 16px 24px;
-    }
-    .hero-content {
-        padding: 0 24px;
-        margin-top: 20px;
-    }
-    .info-content {
-        padding: 60px 24px !important;
-    }
-    .info-content h1 {
-        font-size: 36px !important;
-        margin-bottom: 16px !important;
-    }
     .menu-items {
         display: none; /* Hide desktop menu on mobile for simplicity */
     }
-    h1 {
-        font-size: 40px;
-        line-height: 1.1;
+    
+    .search-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
     }
-    .subtitle {
-        font-size: 15px;
-        width: 100%;
-        max-width: 100%;
-        margin-bottom: 24px;
-    }
-    .search-container {
-        padding: 12px;
-    }
+    
     .model-selector {
         flex-direction: column;
         gap: 4px;
     }
+    
     .model-btn {
-        padding: 12px 14px;
-        font-size: 12px;
+        min-height: 48px; /* Accessible touch target size */
+        padding: 12px;
+        font-size: 13px;
+        width: 100%;
     }
+    
+    .search-bottom {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+    
     .action-buttons {
-        gap: 4px;
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 4px;
     }
+    
     .action-btn {
-        padding: 8px 10px;
-        font-size: 11px;
+        flex: 1;
+        justify-content: center;
+        white-space: nowrap;
+        min-height: 44px;
+    }
+
+    .modal-container {
+        max-width: 95%;
+        margin: 10px;
+    }
+
+    #page-modal {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-buttons {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .btn-login, .btn-signup {
+        min-height: 44px;
+        width: 100%;
+    }
+    
+    .input-wrapper {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 12px;
+        border-radius: 16px;
+    }
+    
+    .btn-submit {
+        align-self: flex-end;
+        margin-top: 8px;
+    }
+}
+
+/* Extra large screens / Ultra-wide */
+@media (min-width: 1440px) {
+    nav {
+        max-width: 1440px;
+        margin: 0 auto;
+    }
+    .hero-content {
+        max-width: 1440px;
+        margin: calc(60px - 50px) auto 0 auto;
     }
 }
