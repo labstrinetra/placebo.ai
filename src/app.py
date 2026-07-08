@@ -148,6 +148,39 @@ async def get_config():
         "supabase_anon_key": os.getenv("SUPABASE_ANON_KEY", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.your-anon-key-placeholder")
     }
 
+import zipfile
+import io
+import urllib.parse
+from fastapi.responses import Response
+
+# Dataset mount path in Hugging Face Spaces is typically /data
+ZIP_PATH = os.getenv("DATASET_MOUNT_PATH", "/data/data.zip")
+
+@app.get("/api/image")
+async def get_image(path: str):
+    if not os.path.exists(ZIP_PATH):
+        return Response(status_code=404, content=f"Dataset zip not found at {ZIP_PATH}. Please mount the dataset to your space.")
+    
+    try:
+        with zipfile.ZipFile(ZIP_PATH, 'r') as zf:
+            # Handle potential nested paths in the zip
+            # If the user packed it as data/images/... we might need to search or just try the direct path
+            try:
+                content = zf.read(path)
+            except KeyError:
+                # Fallback: search for the filename anywhere in the zip if exact path fails
+                filename = path.split('/')[-1]
+                matches = [name for name in zf.namelist() if name.endswith(filename)]
+                if not matches:
+                    return Response(status_code=404, content="Image not found in zip archive.")
+                content = zf.read(matches[0])
+                
+            ext = path.split('.')[-1].lower()
+            media_type = "image/png" if ext == "png" else "image/jpeg" if ext in ["jpg", "jpeg"] else "application/octet-stream"
+            return StreamingResponse(io.BytesIO(content), media_type=media_type)
+    except Exception as e:
+        return Response(status_code=500, content=f"Error reading zip: {str(e)}")
+
 
 import sqlite3
 import time
@@ -231,8 +264,10 @@ async def chat(request: Request, query: Query, user: dict = Depends(get_current_
                     seen_keys.add(key)
                     raw_img = d.metadata.get("image_path")
                     if raw_img and not str(raw_img).startswith("http"):
-                        # Resolve against the user's requested Hugging Face dataset
-                        raw_img = f"https://huggingface.co/datasets/TrinetraLabs/Placebo_AI_DB/resolve/main/{raw_img}"
+                        # Resolve against our internal FastAPI Zip extraction endpoint
+                        import urllib.parse
+                        encoded_path = urllib.parse.quote(raw_img)
+                        raw_img = f"/api/image?path={encoded_path}"
                     unique_sources.append({"book_name": b, "page_number": p, "image_path": raw_img})
             
             # Inject metadata directly into the context so the LLM doesn't hallucinate citations
