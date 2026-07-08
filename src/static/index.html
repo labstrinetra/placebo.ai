@@ -288,6 +288,11 @@
 
                     <div class="input-wrapper">
                         <input type="text" id="chat-input" placeholder="Type question..." autocomplete="off">
+                        <button class="btn-submit" id="stop-btn" onclick="if(currentAbortController) currentAbortController.abort();" style="display:none; background: #ef4444; margin-right: 8px;" aria-label="Stop generation">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                <rect x="6" y="6" width="12" height="12" />
+                            </svg>
+                        </button>
                         <button class="btn-submit" id="send-btn" aria-label="Send clinical query">
                             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
                                 <path d="m5 12 7-7 7 7" />
@@ -1018,6 +1023,8 @@
             }
         };
 
+        let currentAbortController = null;
+        
         async function handleSend() {
             if (!activeUser) {
                 showAuthModal();
@@ -1027,9 +1034,30 @@
             const message = chatInput.value.trim();
             if (!message) return;
 
+            if (currentAbortController) {
+                currentAbortController.abort();
+            }
+            currentAbortController = new AbortController();
+            const signal = currentAbortController.signal;
+
+            // Fetch recent history for memory
+            let recentHistory = [];
+            if (activeUser && supabaseClient) {
+                try {
+                    const { data } = await supabaseClient
+                        .from('chat_history')
+                        .select('query, answer')
+                        .eq('user_id', activeUser.id)
+                        .order('created_at', { ascending: false })
+                        .limit(3);
+                    if (data) recentHistory = data.reverse();
+                } catch (e) {}
+            }
+
             // Disable inputs while processing
             chatInput.disabled = true;
-            sendBtn.disabled = true;
+            document.getElementById('send-btn').style.display = 'none';
+            document.getElementById('stop-btn').style.display = 'flex';
             document.querySelector('.input-wrapper').classList.add('disabled');
 
             // Hide feedback widget and reset its state
@@ -1101,7 +1129,8 @@
                 const response = await fetch('/chat', {
                     method: 'POST',
                     headers: headers,
-                    body: JSON.stringify({ message: message, mode: activeMode })
+                    body: JSON.stringify({ message: message, mode: activeMode, history: recentHistory }),
+                    signal: signal
                 });
 
                 if (!response.ok) {
@@ -1131,6 +1160,7 @@
                             const json = JSON.parse(line);
                             if (json.type === 'sources') {
                                 sources = json.data;
+                                let imagesHtml = "";
                                 sources.forEach(src => {
                                     // Keep the static tags for history, but disable the image modal
                                     const tag = document.createElement('span');
@@ -1138,11 +1168,19 @@
                                     tag.innerText = `${src.book_name} (Pg ${src.page_number})`;
                                     tag.style.cursor = 'default';
                                     sourceList.appendChild(tag);
+                                    
+                                    if (src.image_path) {
+                                        imagesHtml += `<img src="${src.image_path}" style="max-height: 150px; border-radius: 8px; margin-right: 10px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer;" onclick="window.open(this.src, '_blank')" alt="Medical diagram from ${src.book_name}" />`;
+                                    }
                                 });
+                                
+                                if (imagesHtml) {
+                                    imagesHtml = `<div class="source-images" style="display: flex; overflow-x: auto; margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);">${imagesHtml}</div>`;
+                                }
 
                                 // Manually update the view since sources arrive last in the stream now
                                 const finalHtml = DOMPurify.sanitize(marked.parse(fullAnswer));
-                                responseText.innerHTML = queryHTML + badgeHTML + finalHtml;
+                                responseText.innerHTML = queryHTML + badgeHTML + finalHtml + imagesHtml;
 
 
                                 window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
@@ -1175,7 +1213,8 @@
             } finally {
                 // Re-enable inputs
                 chatInput.disabled = false;
-                sendBtn.disabled = false;
+                document.getElementById('send-btn').style.display = 'flex';
+                document.getElementById('stop-btn').style.display = 'none';
                 document.querySelector('.input-wrapper').classList.remove('disabled');
                 chatInput.focus();
             }
