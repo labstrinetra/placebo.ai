@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Placebo AI is a high-performance, cloud-native medical artificial intelligence platform providing instant, medically grounded answers.">
+    <meta name="description"
+        content="Placebo AI is a high-performance, cloud-native medical artificial intelligence platform providing instant, medically grounded answers.">
     <title>Placebo AI | Medical Intelligence</title>
     <link rel="stylesheet" href="/static/style.css">
     <!-- Favicons -->
@@ -24,7 +25,7 @@
             -ms-user-select: none;
             -webkit-touch-callout: none;
         }
-        
+
         #loader-container {
             position: fixed;
             top: 0;
@@ -38,6 +39,7 @@
             align-items: center;
             transition: opacity 1s ease;
         }
+
         #main-content {
             opacity: 0;
             pointer-events: none;
@@ -46,20 +48,37 @@
 
         /* Skeleton Loader Styles */
         .skeleton {
-            background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 75%);
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.03) 25%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.03) 75%);
             background-size: 200% 100%;
             animation: shimmer 1.5s infinite;
             border-radius: 8px;
             margin-bottom: 12px;
         }
 
-        .skeleton-text { height: 18px; width: 100%; }
-        .skeleton-title { height: 28px; width: 60%; margin-bottom: 20px; }
-        .skeleton-short { height: 18px; width: 40%; }
+        .skeleton-text {
+            height: 18px;
+            width: 100%;
+        }
+
+        .skeleton-title {
+            height: 28px;
+            width: 60%;
+            margin-bottom: 20px;
+        }
+
+        .skeleton-short {
+            height: 18px;
+            width: 40%;
+        }
 
         @keyframes shimmer {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
         }
 
         /* Side Drawer Styles */
@@ -75,19 +94,21 @@
             z-index: 2000;
             transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             padding: 30px;
-            box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
             display: flex;
             flex-direction: column;
         }
 
-        #side-drawer.open { right: 0; }
+        #side-drawer.open {
+            right: 0;
+        }
 
         .drawer-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             padding-bottom: 15px;
         }
 
@@ -109,11 +130,13 @@
             transition: opacity 0.2s;
         }
 
-        #close-drawer:hover { opacity: 1; }
+        #close-drawer:hover {
+            opacity: 1;
+        }
 
         .drawer-item {
             padding: 15px;
-            background: rgba(255,255,255,0.05);
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
             margin-bottom: 12px;
             cursor: pointer;
@@ -148,14 +171,16 @@
             overflow-y: auto;
             padding-right: 10px;
         }
-        
+
         /* Custom Scrollbar for drawer */
         #drawer-items::-webkit-scrollbar {
             width: 6px;
         }
+
         #drawer-items::-webkit-scrollbar-track {
-            background: rgba(255,255,255,0.02);
+            background: rgba(255, 255, 255, 0.02);
         }
+
         #drawer-items::-webkit-scrollbar-thumb {
             background: rgba(16, 185, 129, 0.3);
             border-radius: 3px;
@@ -167,8 +192,11 @@
     <!-- Spider Cursor Loader -->
     <div id="loader-container">
         <div style="position: absolute; text-align: center; pointer-events: none; z-index: 10;">
-            <img src="/static/logo.png" width="80" height="80" style="filter: brightness(0) invert(1); margin-bottom: 20px; opacity: 0.8;">
-            <div style="color: #10b981; font-family: 'Montserrat', sans-serif; letter-spacing: 4px; font-weight: 300; font-size: 14px;">INITIALIZING MEDICAL INTELLIGENCE...</div>
+            <img src="/static/logo.png" width="80" height="80"
+                style="filter: brightness(0) invert(1); margin-bottom: 20px; opacity: 0.8;">
+            <div
+                style="color: #10b981; font-family: 'Montserrat', sans-serif; letter-spacing: 4px; font-weight: 300; font-size: 14px;">
+                INITIALIZING MEDICAL INTELLIGENCE...</div>
         </div>
     </div>
 
@@ -185,7 +213,8 @@
         <div class="content-layer">
             <nav>
                 <div class="logo-area" style="display: flex; align-items: center; gap: 12px;">
-                    <img src="/static/logo.png" width="32" height="32" alt="Logo" style="filter: brightness(0) invert(1);">
+                    <img src="/static/logo.png" width="32" height="32" alt="Logo"
+                        style="filter: brightness(0) invert(1);">
                     <a href="#" class="logo">Placebo AI</a>
                 </div>
                 <div class="menu-items">
@@ -200,7 +229,8 @@
                     <button class="btn-login" id="login-btn" onclick="showAuthModal()">Log In</button>
                 </div>
                 <div class="nav-buttons" id="nav-user-buttons" style="display: none; align-items: center; gap: 16px;">
-                    <span id="user-display-email" style="font-size: 13px; font-weight: 500; opacity: 0.85; color: var(--primary);">doctor@placebo.ai</span>
+                    <span id="user-display-email"
+                        style="font-size: 13px; font-weight: 500; opacity: 0.85; color: var(--primary);">doctor@placebo.ai</span>
                     <button class="btn-login" id="logout-btn" style="width: auto; padding: 0 16px;">Log Out</button>
                 </div>
             </nav>
@@ -269,14 +299,16 @@
                     <div class="search-bottom">
                         <div class="action-buttons">
                             <button class="action-btn" id="history-btn">
-                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
                                     <circle cx="12" cy="12" r="10" />
                                     <path d="M12 6v6l4 2" />
                                 </svg>
                                 History
                             </button>
                             <button class="action-btn" id="clear-btn">
-                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
                                     <path d="M3 6h18" />
                                     <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
                                     <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
@@ -284,7 +316,8 @@
                                 Clear
                             </button>
                             <button class="action-btn" id="prompts-btn">
-                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
                                     <circle cx="11" cy="11" r="8" />
                                     <path d="m21 21-4.3-4.3" />
                                 </svg>
@@ -295,38 +328,45 @@
                     </div>
                 </div>
 
-                <div class="app-disclaimer" style="text-align: center; font-size: 11px; color: rgba(255, 255, 255, 0.5); margin-top: 16px; font-family: 'Montserrat', sans-serif; max-width: 800px; margin-left: auto; margin-right: auto; line-height: 1.4;">
-                    Disclaimer: All books used in this application belong to their respective authors and publishers. The author, publisher, and copyright owner reserve all rights. No ownership of book content is claimed by this application.
+                <div class="app-disclaimer"
+                    style="text-align: center; font-size: 11px; color: rgba(255, 255, 255, 0.5); margin-top: 16px; font-family: 'Montserrat', sans-serif; max-width: 800px; margin-left: auto; margin-right: auto; line-height: 1.4;">
+                    Disclaimer: All books used in this application belong to their respective authors and publishers.
+                    The author, publisher, and copyright owner reserve all rights. No ownership of book content is
+                    claimed by this application.
                 </div>
 
                 <!-- Response Panel -->
                 <div id="response-panel">
                     <div class="response-content" id="response-text"></div>
                     <div class="source-container" id="source-list"></div>
-                    
+
                     <!-- Feedback Loop -->
                     <div class="response-feedback" id="response-feedback" style="display: none;">
                         <span class="feedback-label">Was this helpful?</span>
                         <button class="feedback-btn" id="thumbs-up-btn" aria-label="Thumbs up: Helpful answer">
                             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" />
+                                <path
+                                    d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" />
                             </svg>
                         </button>
                         <button class="feedback-btn" id="thumbs-down-btn" aria-label="Thumbs down: Unhelpful answer">
                             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm12-3h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3" />
+                                <path
+                                    d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm12-3h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3" />
                             </svg>
                         </button>
                     </div>
 
                     <!-- Disclaimer -->
                     <div class="response-disclaimer">
-                        <svg class="icon disclaimer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg class="icon disclaimer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
                             <circle cx="12" cy="12" r="10" />
                             <line x1="12" y1="8" x2="12" y2="12" />
                             <line x1="12" y1="16" x2="12.01" y2="16" />
                         </svg>
-                        <span>Placebo AI is a clinical retrieval system. Synthesized knowledge should be clinically verified.</span>
+                        <span>Placebo AI is a clinical retrieval system. Synthesized knowledge should be clinically
+                            verified.</span>
                     </div>
                 </div>
             </main>
@@ -347,68 +387,114 @@
     </div>
 
     <!-- Authentication Modal Overlay -->
-    <div id="auth-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(20px); z-index: 3000; display: none; align-items: center; justify-content: center; padding: 20px;">
-        <div class="modal-container" style="max-width: 400px; border: 1px solid rgba(16, 185, 129, 0.2); box-shadow: 0 0 30px rgba(16, 185, 129, 0.1);">
+    <div id="auth-modal"
+        style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(20px); z-index: 3000; display: none; align-items: center; justify-content: center; padding: 20px;">
+        <div class="modal-container"
+            style="max-width: 400px; border: 1px solid rgba(16, 185, 129, 0.2); box-shadow: 0 0 30px rgba(16, 185, 129, 0.1);">
             <div class="modal-header">
-                <div class="modal-title" id="auth-modal-title" style="font-family: 'Surgena', serif; font-size: 24px; color: var(--white);">Authentication</div>
-                <button class="close-modal" id="close-auth-modal" aria-label="Close authentication modal" style="font-size: 28px;">&times;</button>
+                <div class="modal-title" id="auth-modal-title"
+                    style="font-family: 'Surgena', serif; font-size: 24px; color: var(--white);">Authentication</div>
+                <button class="close-modal" id="close-auth-modal" aria-label="Close authentication modal"
+                    style="font-size: 28px;">&times;</button>
             </div>
-            <div class="modal-body" style="background: transparent; display: flex; flex-direction: column; gap: 16px; padding: 24px;">
+            <div class="modal-body"
+                style="background: transparent; display: flex; flex-direction: column; gap: 16px; padding: 24px;">
                 <!-- Google OAuth Sign In Button -->
-                <button id="google-auth-btn" style="width: 100%; height: 48px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; display: flex; align-items: center; justify-content: center; gap: 12px; color: var(--white); font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.1);" onmouseover="this.style.background='rgba(255,255,255,0.12)'; this.style.borderColor='rgba(16, 185, 129, 0.5)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'; this.style.borderColor='rgba(255,255,255,0.15)'">
+                <button id="google-auth-btn"
+                    style="width: 100%; height: 48px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; display: flex; align-items: center; justify-content: center; gap: 12px; color: var(--white); font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
+                    onmouseover="this.style.background='rgba(255,255,255,0.12)'; this.style.borderColor='rgba(16, 185, 129, 0.5)'"
+                    onmouseout="this.style.background='rgba(255,255,255,0.06)'; this.style.borderColor='rgba(255,255,255,0.15)'">
                     <svg width="20" height="20" viewBox="0 0 24 24" style="flex-shrink: 0;">
-                        <path fill="#EA4335" d="M12 5.04c1.66 0 3.2.57 4.38 1.69l3.27-3.27C17.67 1.48 14.97 1 12 1 7.35 1 3.4 3.65 1.56 7.5l3.86 3C6.34 7.55 8.94 5.04 12 5.04z"/>
-                        <path fill="#4285F4" d="M23.49 12.27c0-.81-.07-1.59-.2-2.34H12v4.43h6.44c-.28 1.47-1.11 2.71-2.36 3.55l3.65 2.84c2.13-1.97 3.36-4.87 3.36-8.48z"/>
-                        <path fill="#FBBC05" d="M5.42 14.5c-.25-.74-.39-1.53-.39-2.35s.14-1.61.39-2.35L1.56 6.8C.56 8.79 0 11.01 0 12.35s.56 3.56 1.56 5.55l3.86-3z"/>
-                        <path fill="#34A853" d="M12 23c3.24 0 5.97-1.07 7.96-2.91l-3.65-2.84c-1.01.68-2.31 1.09-3.96 1.09-3.06 0-5.66-2.51-6.58-5.46l-3.86 3C3.4 20.35 7.35 23 12 23z"/>
+                        <path fill="#EA4335"
+                            d="M12 5.04c1.66 0 3.2.57 4.38 1.69l3.27-3.27C17.67 1.48 14.97 1 12 1 7.35 1 3.4 3.65 1.56 7.5l3.86 3C6.34 7.55 8.94 5.04 12 5.04z" />
+                        <path fill="#4285F4"
+                            d="M23.49 12.27c0-.81-.07-1.59-.2-2.34H12v4.43h6.44c-.28 1.47-1.11 2.71-2.36 3.55l3.65 2.84c2.13-1.97 3.36-4.87 3.36-8.48z" />
+                        <path fill="#FBBC05"
+                            d="M5.42 14.5c-.25-.74-.39-1.53-.39-2.35s.14-1.61.39-2.35L1.56 6.8C.56 8.79 0 11.01 0 12.35s.56 3.56 1.56 5.55l3.86-3z" />
+                        <path fill="#34A853"
+                            d="M12 23c3.24 0 5.97-1.07 7.96-2.91l-3.65-2.84c-1.01.68-2.31 1.09-3.96 1.09-3.06 0-5.66-2.51-6.58-5.46l-3.86 3C3.4 20.35 7.35 23 12 23z" />
                     </svg>
                     Continue with Google
                 </button>
 
                 <div style="display: flex; align-items: center; justify-content: center; width: 100%; margin: 4px 0;">
                     <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.08);"></div>
-                    <span style="font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.5; color: var(--white); padding: 0 12px;">or email verification</span>
+                    <span
+                        style="font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.5; color: var(--white); padding: 0 12px;">or
+                        email verification</span>
                     <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.08);"></div>
                 </div>
 
                 <!-- OTP Step 1: Send Verification Code -->
                 <div id="otp-step-1" style="display: flex; flex-direction: column; gap: 16px; width: 100%;">
                     <div style="display: flex; flex-direction: column; gap: 6px; width: 100%;">
-                        <label style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; color: var(--white); text-align: left;">Email Address</label>
-                        <input type="email" id="auth-email" placeholder="doctor@placebo.ai" style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; font-family: 'Montserrat', sans-serif; outline: none; transition: border-color 0.3s;" onfocus="this.style.borderColor='#10b981'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
+                        <label
+                            style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; color: var(--white); text-align: left;">Email
+                            Address</label>
+                        <input type="email" id="auth-email" placeholder="doctor@placebo.ai"
+                            style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; font-family: 'Montserrat', sans-serif; outline: none; transition: border-color 0.3s;"
+                            onfocus="this.style.borderColor='#10b981'"
+                            onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
                     </div>
-                    <button class="btn-signup" id="auth-send-otp-btn" style="width: 100%; height: 46px; font-size: 14px; margin-top: 4px;">Send Verification Code</button>
+                    <button class="btn-signup" id="auth-send-otp-btn"
+                        style="width: 100%; height: 46px; font-size: 14px; margin-top: 4px;">Send Verification
+                        Code</button>
                 </div>
 
                 <!-- OTP Step 2: Verify 8-digit Code (Initially Hidden) -->
                 <div id="otp-step-2" style="display: none; flex-direction: column; gap: 16px; width: 100%;">
                     <div style="display: flex; flex-direction: column; gap: 6px; width: 100%;">
-                        <label style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; color: var(--white); text-align: left;">8-Digit OTP Code</label>
-                        <input type="text" id="auth-otp-code" placeholder="••••••••" maxlength="8" style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: 8px; text-align: center; outline: none; transition: border-color 0.3s;" onfocus="this.style.borderColor='#10b981'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
+                        <label
+                            style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; color: var(--white); text-align: left;">8-Digit
+                            OTP Code</label>
+                        <input type="text" id="auth-otp-code" placeholder="••••••••" maxlength="8"
+                            style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: 8px; text-align: center; outline: none; transition: border-color 0.3s;"
+                            onfocus="this.style.borderColor='#10b981'"
+                            onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
                     </div>
-                    <button class="btn-signup" id="auth-verify-otp-btn" style="width: 100%; height: 46px; font-size: 14px; margin-top: 4px;">Verify & Log In</button>
+                    <button class="btn-signup" id="auth-verify-otp-btn"
+                        style="width: 100%; height: 46px; font-size: 14px; margin-top: 4px;">Verify & Log In</button>
                     <div style="text-align: center; font-size: 12px; opacity: 0.7;">
-                        <a href="#" id="auth-back-to-step1" style="color: var(--primary); text-decoration: none; font-weight: 600;">Go back to enter email</a>
+                        <a href="#" id="auth-back-to-step1"
+                            style="color: var(--primary); text-decoration: none; font-weight: 600;">Go back to enter
+                            email</a>
                     </div>
                 </div>
 
                 <!-- Unified Authentication Message Output -->
-                <div id="auth-message" style="text-align: center; font-size: 13px; font-weight: 500; margin-top: 4px; min-height: 18px; color: var(--primary); width: 100%;"></div>
+                <div id="auth-message"
+                    style="text-align: center; font-size: 13px; font-weight: 500; margin-top: 4px; min-height: 18px; color: var(--primary); width: 100%;">
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Profession Selection Modal Overlay -->
-    <div id="profession-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(20px); z-index: 4000; display: none; align-items: center; justify-content: center; padding: 20px;">
-        <div class="modal-container" style="max-width: 400px; border: 1px solid rgba(16, 185, 129, 0.2); box-shadow: 0 0 30px rgba(16, 185, 129, 0.1);">
+    <div id="profession-modal"
+        style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(20px); z-index: 4000; display: none; align-items: center; justify-content: center; padding: 20px;">
+        <div class="modal-container"
+            style="max-width: 400px; border: 1px solid rgba(16, 185, 129, 0.2); box-shadow: 0 0 30px rgba(16, 185, 129, 0.1);">
             <div class="modal-header">
-                <div class="modal-title" style="font-family: 'Surgena', serif; font-size: 24px; color: var(--white);">Welcome!</div>
+                <div class="modal-title" style="font-family: 'Surgena', serif; font-size: 24px; color: var(--white);">
+                    Welcome!</div>
             </div>
-            <div class="modal-body" style="background: transparent; display: flex; flex-direction: column; gap: 16px; padding: 24px; text-align: center;">
-                <p style="color: var(--white); opacity: 0.8; font-family: 'Montserrat', sans-serif; font-size: 14px; margin-bottom: 8px;">What best describes you?</p>
-                <button class="profession-btn" data-mode="mbbs" style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; font-family: 'Montserrat', sans-serif; font-weight: 600; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">MBBS Student / Doctor</button>
-                <button class="profession-btn" data-mode="pharmacy" style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; font-family: 'Montserrat', sans-serif; font-weight: 600; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">Pharmacy Student / Pharmacist</button>
-                <button class="profession-btn" data-mode="unified" style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; font-family: 'Montserrat', sans-serif; font-weight: 600; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">Unified (Both Domains)</button>
+            <div class="modal-body"
+                style="background: transparent; display: flex; flex-direction: column; gap: 16px; padding: 24px; text-align: center;">
+                <p
+                    style="color: var(--white); opacity: 0.8; font-family: 'Montserrat', sans-serif; font-size: 14px; margin-bottom: 8px;">
+                    What best describes you?</p>
+                <button class="profession-btn" data-mode="mbbs"
+                    style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; font-family: 'Montserrat', sans-serif; font-weight: 600; cursor: pointer; transition: all 0.2s;"
+                    onmouseover="this.style.background='rgba(16, 185, 129, 0.2)'"
+                    onmouseout="this.style.background='rgba(255,255,255,0.05)'">MBBS Student / Doctor</button>
+                <button class="profession-btn" data-mode="pharmacy"
+                    style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; font-family: 'Montserrat', sans-serif; font-weight: 600; cursor: pointer; transition: all 0.2s;"
+                    onmouseover="this.style.background='rgba(16, 185, 129, 0.2)'"
+                    onmouseout="this.style.background='rgba(255,255,255,0.05)'">Pharmacy Student / Pharmacist</button>
+                <button class="profession-btn" data-mode="unified"
+                    style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; font-family: 'Montserrat', sans-serif; font-weight: 600; cursor: pointer; transition: all 0.2s;"
+                    onmouseover="this.style.background='rgba(16, 185, 129, 0.2)'"
+                    onmouseout="this.style.background='rgba(255,255,255,0.05)'">Unified (Both Domains)</button>
             </div>
         </div>
     </div>
@@ -448,21 +534,21 @@
                             localStorage.removeItem(key);
                         }
                     }
-                    
+
                     supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
                         auth: {
                             persistSession: false // Forces logout on every page refresh
                         }
                     });
                     console.log("Supabase Client initialized with ephemeral sessions. Testing connectivity...");
-                    
+
                     // Connection ping test with 2-second timeout
                     const pingPromise = supabaseClient.auth.getSession();
                     const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("Supabase connection timeout")), 2000));
-                    
+
                     await Promise.race([pingPromise, timeoutPromise]);
                     console.log("Supabase connectivity verified successfully.");
-                    
+
                     supabaseClient.auth.onAuthStateChange((event, session) => {
                         console.log("Auth State Changed Event:", event);
                         updateAuthState();
@@ -482,7 +568,7 @@
             const authButtons = document.getElementById('nav-auth-buttons');
             const userButtons = document.getElementById('nav-user-buttons');
             const displayEmail = document.getElementById('user-display-email');
-            
+
             if (supabaseClient) {
                 try {
                     const { data: { session } } = await supabaseClient.auth.getSession();
@@ -497,12 +583,12 @@
                     console.error("Error fetching Supabase session:", err);
                 }
             }
-            
+
             if (activeUser) {
                 authButtons.style.display = 'none';
                 userButtons.style.display = 'flex';
                 displayEmail.innerText = activeUser.email;
-                
+
                 let userDefaultMode = activeUser.user_metadata?.defaultMode;
                 if (!userDefaultMode) {
                     document.getElementById('profession-modal').style.display = 'flex';
@@ -510,7 +596,7 @@
                     activeMode = userDefaultMode;
                     updateModeButtons(activeMode);
                 }
-                
+
                 // Dynamically update user limits
                 const creditText = document.querySelector('.credit-info span');
                 if (creditText) {
@@ -568,7 +654,7 @@
         const clearBtn = document.getElementById('clear-btn');
 
         let activeMode = 'unified';
-        
+
         function updateModeButtons(mode) {
             const buttons = document.querySelectorAll('.model-btn');
             buttons.forEach(b => {
@@ -592,10 +678,10 @@
                         activeMode = mode;
                         updateModeButtons(mode);
                         document.getElementById('profession-modal').style.display = 'none';
-                        
+
                         // Reset button text in case they log out and it re-shows
-                        btn.innerText = mode === "mbbs" ? "MBBS Student / Doctor" : 
-                                      (mode === "pharmacy" ? "Pharmacy Student / Pharmacist" : "Unified (Both Domains)");
+                        btn.innerText = mode === "mbbs" ? "MBBS Student / Doctor" :
+                            (mode === "pharmacy" ? "Pharmacy Student / Pharmacist" : "Unified (Both Domains)");
                     }
                 }
             };
@@ -633,7 +719,7 @@
         const drawerItems = document.getElementById('drawer-items');
 
         let PREDEFINED_PROMPTS = [];
-        
+
         // Fetch external configuration for medical terminology / prompts
         fetch('/static/prompts.json')
             .then(res => res.json())
@@ -642,7 +728,7 @@
 
         async function saveToHistory(query, answer = '', sources = []) {
             if (!activeUser || !supabaseClient) return;
-            
+
             try {
                 await supabaseClient.from('chat_history').insert({
                     user_id: activeUser.id,
@@ -658,7 +744,7 @@
         function displayStoredResult(item) {
             const sanitizedQuery = DOMPurify.sanitize(item.query);
             const queryHTML = `<div style="font-size: 16px; font-weight: 500; color: white; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1);"><span style="opacity: 0.5; font-size: 12px; display: block; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px;">You Asked:</span>${sanitizedQuery}</div>`;
-            
+
             sourceList.innerHTML = '';
             item.sources.forEach(src => {
                 const tag = document.createElement('span');
@@ -667,9 +753,9 @@
                 tag.style.cursor = 'default';
                 sourceList.appendChild(tag);
             });
-            
+
             responseText.innerHTML = queryHTML + DOMPurify.sanitize(marked.parse(item.answer));
-            
+
             responsePanel.style.display = 'flex';
             chatInput.value = item.query;
             sideDrawer.classList.remove('open');
@@ -680,7 +766,7 @@
             drawerItems.innerHTML = '';
             if (type === 'history') {
                 drawerTitle.innerText = 'History';
-                
+
                 if (!activeUser || !supabaseClient) {
                     drawerItems.innerHTML = '<div style="opacity: 0.5; text-align: center; margin-top: 20px;">Please log in to view history.</div>';
                     sideDrawer.classList.add('open');
@@ -740,18 +826,18 @@
         const signupBtn = document.getElementById('signup-btn');
         const closeAuthModal = document.getElementById('close-auth-modal');
         const authModalTitle = document.getElementById('auth-modal-title');
-        
+
         const googleAuthBtn = document.getElementById('google-auth-btn');
-        
+
         const otpStep1 = document.getElementById('otp-step-1');
         const authEmail = document.getElementById('auth-email');
         const authSendOtpBtn = document.getElementById('auth-send-otp-btn');
-        
+
         const otpStep2 = document.getElementById('otp-step-2');
         const authOtpCode = document.getElementById('auth-otp-code');
         const authVerifyOtpBtn = document.getElementById('auth-verify-otp-btn');
         const authBackToStep1 = document.getElementById('auth-back-to-step1');
-        
+
         const authMessage = document.getElementById('auth-message');
         const logoutBtn = document.getElementById('logout-btn');
 
@@ -774,7 +860,7 @@
 
         // loginBtn and signupBtn onclick handled inline
         closeAuthModal.onclick = () => authModal.style.display = 'none';
-        
+
         // Close auth modal when clicking outside content box
         authModal.onclick = (e) => {
             if (e.target === authModal) {
@@ -794,10 +880,10 @@
         // --- DISPOSABLE EMAIL CHECK ---
         function isDisposableEmail(email) {
             const disposableDomains = [
-                'mailinator.com', 'tempmail.com', 'temp-mail.org', '10minutemail.com', 
-                'yopmail.com', 'guerrillamail.com', 'dispostable.com', 'trashmail.com', 
-                'getairmail.com', 'sharklasers.com', 'guerrillamailblock.com', 
-                'guerrillamail.net', 'guerrillamail.org', 'guerrillamail.biz', 
+                'mailinator.com', 'tempmail.com', 'temp-mail.org', '10minutemail.com',
+                'yopmail.com', 'guerrillamail.com', 'dispostable.com', 'trashmail.com',
+                'getairmail.com', 'sharklasers.com', 'guerrillamailblock.com',
+                'guerrillamail.net', 'guerrillamail.org', 'guerrillamail.biz',
                 'tempmailo.com', 'generator.email', 'maildrop.cc', 'tempmail.dev',
                 'tempmail.net', 'disposable.com', 'fakeinbox.com', 'disposablemail.com'
             ];
@@ -817,7 +903,7 @@
 
             authMessage.style.color = '#10b981';
             authMessage.innerText = 'Redirecting to Google...';
-            
+
             try {
                 const { error } = await supabaseClient.auth.signInWithOAuth({
                     provider: 'google',
@@ -865,7 +951,7 @@
                     }
                 });
                 if (error) throw error;
-                
+
                 authMessage.innerText = 'Verification code sent to your email!';
                 setTimeout(() => {
                     authMessage.innerText = '';
@@ -908,7 +994,7 @@
                     type: 'email'
                 });
                 if (error) throw error;
-                
+
                 authMessage.innerText = 'Authentication successful!';
                 setTimeout(() => {
                     authModal.style.display = 'none';
@@ -962,7 +1048,7 @@
             if (activeUser && supabaseClient) {
                 let currentCredits = activeUser.user_metadata?.credits_remaining !== undefined ? activeUser.user_metadata.credits_remaining : 500;
                 if (currentCredits > 500) currentCredits = 500; // Instantly scale legacy users down to new 500 limit
-                
+
                 if (currentCredits < 10) {
                     responsePanel.style.display = 'flex';
                     responseText.innerHTML = '<span style="color: #ef4444; padding: 20px; display: block; text-align: center;">Insufficient credits. You need at least 10 credits to perform a clinical search. Please upgrade your account.</span>';
@@ -971,13 +1057,13 @@
                     document.querySelector('.input-wrapper').classList.remove('disabled');
                     return;
                 }
-                
+
                 let newCredits = Math.max(0, currentCredits - 10);
-                
+
                 // Optimistic UI update
                 const creditText = document.querySelector('.credit-info span');
                 if (creditText) creditText.innerText = `${newCredits}/500 credits`;
-                
+
                 // Background sync with Supabase User Metadata
                 supabaseClient.auth.updateUser({
                     data: { credits_remaining: newCredits }
@@ -989,15 +1075,15 @@
             }
 
             responsePanel.style.display = 'flex';
-            
+
             let modeDisplay = "Unified Library";
             if (activeMode === "mbbs") modeDisplay = "Dx(MBBS) Knowledge Base";
             if (activeMode === "pharmacy") modeDisplay = "Rx(Pharmacy) Knowledge Base";
-            
+
             const sanitizedMessage = DOMPurify.sanitize(message);
             const queryHTML = `<div style="font-size: 16px; font-weight: 500; color: white; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1);"><span style="opacity: 0.5; font-size: 12px; display: block; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px;">You Asked:</span>${sanitizedMessage}</div>`;
             const badgeHTML = `<div style="font-size: 11px; color: var(--primary); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; border-left: 2px solid var(--primary); padding-left: 8px;">Response from ${modeDisplay}</div>`;
-            
+
             responseText.innerHTML = queryHTML + badgeHTML + `
                 <div class="skeleton skeleton-title"></div>
                 <div class="skeleton skeleton-text"></div>
@@ -1006,6 +1092,7 @@
             `;
             sourceList.innerHTML = '';
 
+            let isRateLimited = false;
             try {
                 const headers = { 'Content-Type': 'application/json' };
                 if (activeToken) {
@@ -1023,7 +1110,14 @@
                         responseText.innerHTML = '<span style="color: #ef4444;">Session expired or unauthorized. Please log out and log back in.</span>';
                         return;
                     }
-                    throw new Error(`HTTP Error: ${response.status}`);
+                    let errorDetail = `HTTP Error: ${response.status}`;
+                    try {
+                        const errorData = await response.json();
+                        if (errorData.detail) {
+                            errorDetail = errorData.detail;
+                        }
+                    } catch(e) {}
+                    throw new Error(errorDetail);
                 }
 
                 const reader = response.body.getReader();
@@ -1053,14 +1147,14 @@
                                     tag.style.cursor = 'default';
                                     sourceList.appendChild(tag);
                                 });
-                                
+
                                 // Manually update the view since sources arrive last in the stream now
                                 const finalHtml = DOMPurify.sanitize(marked.parse(fullAnswer));
                                 responseText.innerHTML = queryHTML + badgeHTML + finalHtml;
 
-                                
+
                                 window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-                                
+
                             } else if (json.type === 'start_answer') {
                                 responseText.innerHTML = queryHTML + badgeHTML;
                                 fullAnswer = ""; // Reset buffer
@@ -1085,18 +1179,47 @@
                 // Show feedback widget when streaming completes successfully
                 if (feedbackContainer) feedbackContainer.style.display = 'flex';
             } catch (error) {
-                responseText.innerHTML = '<span style="color: #ef4444;">Connection error.</span>';
+                console.error("Chat error:", error);
+                const msg = error.message === 'Failed to fetch' ? 'Connection error. The server might be offline.' : error.message;
+                responseText.innerHTML = `<span style="color: #ef4444;">${msg}</span>`;
+                
+                // Restore the user's message into the input box so they don't lose it
+                chatInput.value = message;
+                charCount.innerText = `${message.length}/3,000`;
+
+                if (msg.toLowerCase().includes('rate limit')) {
+                    isRateLimited = true;
+                }
             } finally {
-                // Re-enable inputs
-                chatInput.disabled = false;
-                sendBtn.disabled = false;
-                document.querySelector('.input-wrapper').classList.remove('disabled');
-                chatInput.focus();
+                if (isRateLimited) {
+                    let countdown = 60;
+                    chatInput.placeholder = `Wait ${countdown}s...`;
+                    
+                    const interval = setInterval(() => {
+                        countdown--;
+                        if (countdown <= 0) {
+                            clearInterval(interval);
+                            chatInput.disabled = false;
+                            sendBtn.disabled = false;
+                            document.querySelector('.input-wrapper').classList.remove('disabled');
+                            chatInput.placeholder = "Type question...";
+                            chatInput.focus();
+                        } else {
+                            chatInput.placeholder = `Wait ${countdown}s...`;
+                        }
+                    }, 1000);
+                } else {
+                    // Re-enable inputs
+                    chatInput.disabled = false;
+                    sendBtn.disabled = false;
+                    document.querySelector('.input-wrapper').classList.remove('disabled');
+                    chatInput.focus();
+                }
             }
         }
 
-        const resetModal = () => { 
-            pageModal.style.display = 'none'; 
+        const resetModal = () => {
+            pageModal.style.display = 'none';
             modalImg.dataset.scale = 1;
             modalImg.style.transform = 'scale(1)';
         };
@@ -1163,14 +1286,14 @@
                 }
             });
         }
-        
+
 
 
         sendBtn.addEventListener('click', handleSend);
         chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSend(); });
     </script>
 
-    
+
     <!-- Anti-Copy, Anti-Paste, and Anti-Screenshot Protections -->
     <script>
         // Disable Right-Click Context Menu
