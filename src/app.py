@@ -169,7 +169,7 @@ async def get_image(path: str):
                 content = zf.read(path)
             except KeyError:
                 # Fallback: search for the filename anywhere in the zip if exact path fails
-                filename = path.split('/')[-1]
+                filename = path.replace('\\', '/').split('/')[-1]
                 matches = [name for name in zf.namelist() if name.endswith(filename)]
                 if not matches:
                     return Response(status_code=404, content="Image not found in zip archive.")
