@@ -224,16 +224,43 @@
                     <a href="/docs" class="menu-item">Docs</a>
                     <a href="/about" class="menu-item">About</a>
                 </div>
-                <div class="nav-buttons" id="nav-auth-buttons">
+                <div class="nav-buttons desktop-auth" id="nav-auth-buttons">
                     <button class="btn-signup" id="signup-btn" onclick="showAuthModal()">Sign Up</button>
                     <button class="btn-login" id="login-btn" onclick="showAuthModal()">Log In</button>
                 </div>
-                <div class="nav-buttons" id="nav-user-buttons" style="display: none; align-items: center; gap: 16px;">
+                <div class="nav-buttons desktop-auth" id="nav-user-buttons" style="display: none; align-items: center; gap: 16px;">
                     <span id="user-display-email"
                         style="font-size: 13px; font-weight: 500; opacity: 0.85; color: var(--primary);">doctor@placebo.ai</span>
                     <button class="btn-login" id="logout-btn" style="width: auto; padding: 0 16px;">Log Out</button>
                 </div>
+                
+                <button class="mobile-toggle" id="mobile-toggle" style="display: none; background: transparent; border: none; color: white; cursor: pointer; padding: 8px;">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
             </nav>
+
+            <!-- Mobile Menu Dropdown -->
+            <div id="mobile-menu" class="mobile-menu">
+                <a href="/" class="menu-item" style="font-size: 16px; padding: 8px 0;">Home</a>
+                <a href="/architecture" class="menu-item" style="font-size: 16px; padding: 8px 0;">Architecture</a>
+                <a href="/capabilities" class="menu-item" style="font-size: 16px; padding: 8px 0;">Capabilities</a>
+                <a href="/docs" class="menu-item" style="font-size: 16px; padding: 8px 0;">Docs</a>
+                <a href="/about" class="menu-item" style="font-size: 16px; padding: 8px 0;">About</a>
+                <hr style="border-color: rgba(255,255,255,0.1); margin: 8px 0;">
+                
+                <div id="mobile-auth-buttons" style="display: flex; flex-direction: column; gap: 12px;">
+                    <button class="btn-signup" onclick="showAuthModal(); document.getElementById('mobile-menu').classList.remove('active');">Sign Up</button>
+                    <button class="btn-login" onclick="showAuthModal(); document.getElementById('mobile-menu').classList.remove('active');">Log In</button>
+                </div>
+                <div id="mobile-user-buttons" style="display: none; flex-direction: column; gap: 12px;">
+                    <span id="mobile-display-email" style="font-size: 14px; font-weight: 500; opacity: 0.85; color: var(--primary); text-align: center;"></span>
+                    <button class="btn-login" onclick="if(supabaseClient) supabaseClient.auth.signOut(); document.getElementById('mobile-menu').classList.remove('active');">Log Out</button>
+                </div>
+            </div>
 
             <main class="hero-content">
                 <div class="badge-container">
@@ -287,11 +314,16 @@
                     </div>
 
                     <div class="input-wrapper">
-                        <input type="text" id="chat-input" placeholder="Type question..." autocomplete="off">
+                        <textarea id="chat-input" placeholder="Type question..." autocomplete="off" rows="1"></textarea>
                         <button class="btn-submit" id="send-btn" aria-label="Send clinical query">
                             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
                                 <path d="m5 12 7-7 7 7" />
                                 <path d="M12 19V5" />
+                            </svg>
+                        </button>
+                        <button class="btn-submit" id="stop-btn" aria-label="Stop generating" style="display: none; background: #ef4444; color: white;">
+                            <svg class="icon" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                <rect x="6" y="6" width="12" height="12" rx="2" ry="2"></rect>
                             </svg>
                         </button>
                     </div>
@@ -515,6 +547,52 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="/static/spider-loader.js"></script>
     <script>
+        // --- UI UTILITIES ---
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            if(!container) return;
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    ${type === 'success' 
+                        ? '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline>'
+                        : '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>'
+                    }
+                </svg>
+                <span>${message}</span>
+            `;
+            container.appendChild(toast);
+            
+            requestAnimationFrame(() => toast.classList.add('show'));
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 5000);
+        }
+
+        function wrapMarkdownCode(html) {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            const pres = tempDiv.querySelectorAll('pre');
+            pres.forEach(pre => {
+                pre.classList.add('markdown-pre');
+                const btn = document.createElement('button');
+                btn.className = 'copy-code-btn';
+                btn.innerText = 'Copy';
+                btn.onclick = () => {
+                    let codeText = pre.innerText;
+                    if(codeText.endsWith('Copy')) codeText = codeText.slice(0, -4);
+                    navigator.clipboard.writeText(codeText.trim());
+                    btn.innerText = 'Copied!';
+                    setTimeout(() => btn.innerText = 'Copy', 2000);
+                };
+                pre.appendChild(btn);
+            });
+            return tempDiv.innerHTML;
+        }
+
         // --- SUPABASE CLIENT INITIALIZATION ---
         let supabaseClient = null;
         let activeUser = null;
@@ -568,6 +646,10 @@
             const authButtons = document.getElementById('nav-auth-buttons');
             const userButtons = document.getElementById('nav-user-buttons');
             const displayEmail = document.getElementById('user-display-email');
+            
+            const mobileAuthBtns = document.getElementById('mobile-auth-buttons');
+            const mobileUserBtns = document.getElementById('mobile-user-buttons');
+            const mobileDisplayEmail = document.getElementById('mobile-display-email');
 
             if (supabaseClient) {
                 try {
@@ -588,6 +670,12 @@
                 authButtons.style.display = 'none';
                 userButtons.style.display = 'flex';
                 displayEmail.innerText = activeUser.email;
+                
+                if (mobileAuthBtns) {
+                    mobileAuthBtns.style.display = 'none';
+                    mobileUserBtns.style.display = 'flex';
+                    mobileDisplayEmail.innerText = activeUser.email;
+                }
 
                 let userDefaultMode = activeUser.user_metadata?.defaultMode;
                 if (!userDefaultMode) {
@@ -607,6 +695,10 @@
             } else {
                 authButtons.style.display = 'flex';
                 userButtons.style.display = 'none';
+                if (mobileAuthBtns) {
+                    mobileAuthBtns.style.display = 'flex';
+                    mobileUserBtns.style.display = 'none';
+                }
                 activeToken = null;
                 const creditText = document.querySelector('.credit-info span');
                 if (creditText) {
@@ -643,6 +735,7 @@
 
         const chatInput = document.getElementById('chat-input');
         const sendBtn = document.getElementById('send-btn');
+        const stopBtn = document.getElementById('stop-btn');
         const charCount = document.getElementById('char-count');
         const responsePanel = document.getElementById('response-panel');
         const responseText = document.getElementById('response-text');
@@ -652,6 +745,20 @@
         const modalTitle = document.getElementById('modal-title');
         const closeModal = document.getElementById('close-modal');
         const clearBtn = document.getElementById('clear-btn');
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        if (mobileToggle && mobileMenu) {
+            mobileToggle.addEventListener('click', () => {
+                mobileMenu.classList.toggle('active');
+            });
+            // Close menu if clicked outside
+            document.addEventListener('click', (e) => {
+                if (!mobileMenu.contains(e.target) && !mobileToggle.contains(e.target)) {
+                    mobileMenu.classList.remove('active');
+                }
+            });
+        }
 
         let activeMode = 'unified';
 
@@ -707,8 +814,11 @@
             });
         }
 
-        chatInput.addEventListener('input', () => {
-            charCount.innerText = `${chatInput.value.length}/3,000`;
+        chatInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+            if (this.value === '') this.style.height = 'auto';
+            charCount.innerText = `${this.value.length}/3,000`;
         });
 
         const historyBtn = document.getElementById('history-btn');
@@ -1018,19 +1128,39 @@
             }
         };
 
-        async function handleSend() {
+        let currentAbortController = null;
+        async function handleSend(retryMessage = null) {
             if (!activeUser) {
                 showAuthModal();
                 return;
             }
 
-            const message = chatInput.value.trim();
+            const message = retryMessage || chatInput.value.trim();
             if (!message) return;
+            
+            // Seamless token refresh attempt
+            try {
+                if (supabaseClient) {
+                    const { data: { session }, error } = await supabaseClient.auth.getSession();
+                    if (session) {
+                        activeToken = session.access_token;
+                    } else if (error) {
+                        showToast('Session error, attempting to refresh...', 'error');
+                    }
+                }
+            } catch (e) { }
 
             // Disable inputs while processing
             chatInput.disabled = true;
-            sendBtn.disabled = true;
+            sendBtn.style.display = 'none';
+            stopBtn.style.display = 'flex';
             document.querySelector('.input-wrapper').classList.add('disabled');
+            
+            currentAbortController = new AbortController();
+            stopBtn.onclick = () => {
+                if(currentAbortController) currentAbortController.abort();
+                showToast('Generation stopped', 'error');
+            };
 
             // Hide feedback widget and reset its state
             const feedbackContainer = document.getElementById('response-feedback');
@@ -1102,7 +1232,8 @@
                 const response = await fetch('/chat', {
                     method: 'POST',
                     headers: headers,
-                    body: JSON.stringify({ message: message, mode: activeMode })
+                    body: JSON.stringify({ message: message, mode: activeMode }),
+                    signal: currentAbortController.signal
                 });
 
                 if (!response.ok) {
@@ -1149,7 +1280,7 @@
                                 });
 
                                 // Manually update the view since sources arrive last in the stream now
-                                const finalHtml = DOMPurify.sanitize(marked.parse(fullAnswer));
+                                const finalHtml = wrapMarkdownCode(DOMPurify.sanitize(marked.parse(fullAnswer)));
                                 responseText.innerHTML = queryHTML + badgeHTML + finalHtml;
 
 
@@ -1160,7 +1291,7 @@
                                 fullAnswer = ""; // Reset buffer
                             } else if (json.type === 'content') {
                                 fullAnswer += json.data;
-                                const parsedHtml = DOMPurify.sanitize(marked.parse(fullAnswer));
+                                const parsedHtml = wrapMarkdownCode(DOMPurify.sanitize(marked.parse(fullAnswer)));
                                 responseText.innerHTML = queryHTML + badgeHTML + parsedHtml;
                                 window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
                             }
@@ -1180,12 +1311,30 @@
                 if (feedbackContainer) feedbackContainer.style.display = 'flex';
             } catch (error) {
                 console.error("Chat error:", error);
+                
+                if (error.name === 'AbortError') {
+                    responseText.innerHTML += '<div style="margin-top: 10px; color: #f87171; font-size: 12px;"><i>[Generation stopped by user]</i></div>';
+                    return;
+                }
+
                 const msg = error.message === 'Failed to fetch' ? 'Connection error. The server might be offline.' : error.message;
-                responseText.innerHTML = `<span style="color: #ef4444;">${msg}</span>`;
+                responseText.innerHTML = `
+                    <span style="color: #ef4444;">${msg}</span>
+                    <button class="btn-retry" onclick="handleSend('${message.replace(/'/g, "\\'")}')">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"></path>
+                            <path d="M21 3v5h-5"></path>
+                        </svg>
+                        Retry Query
+                    </button>
+                `;
+                
+                showToast(msg, 'error');
                 
                 // Restore the user's message into the input box so they don't lose it
                 chatInput.value = message;
                 charCount.innerText = `${message.length}/3,000`;
+                chatInput.style.height = 'auto';
 
                 if (msg.toLowerCase().includes('rate limit')) {
                     isRateLimited = true;
@@ -1200,7 +1349,8 @@
                         if (countdown <= 0) {
                             clearInterval(interval);
                             chatInput.disabled = false;
-                            sendBtn.disabled = false;
+                            sendBtn.style.display = 'flex';
+                            stopBtn.style.display = 'none';
                             document.querySelector('.input-wrapper').classList.remove('disabled');
                             chatInput.placeholder = "Type question...";
                             chatInput.focus();
@@ -1211,7 +1361,8 @@
                 } else {
                     // Re-enable inputs
                     chatInput.disabled = false;
-                    sendBtn.disabled = false;
+                    sendBtn.style.display = 'flex';
+                    stopBtn.style.display = 'none';
                     document.querySelector('.input-wrapper').classList.remove('disabled');
                     chatInput.focus();
                 }
@@ -1323,6 +1474,7 @@
             }
         });
     </script>
+    <div id="toast-container"></div>
 </body>
 
 </html>
