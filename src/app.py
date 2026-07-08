@@ -229,7 +229,11 @@ async def chat(request: Request, query: Query, user: dict = Depends(get_current_
                 key = f"{b}_{p}"
                 if key not in seen_keys:
                     seen_keys.add(key)
-                    unique_sources.append({"book_name": b, "page_number": p, "image_path": d.metadata.get("image_path")})
+                    raw_img = d.metadata.get("image_path")
+                    if raw_img and not str(raw_img).startswith("http"):
+                        # Resolve against the user's requested Hugging Face dataset
+                        raw_img = f"https://huggingface.co/datasets/TrinetraLabs/Placebo_AI_DB/resolve/main/{raw_img}"
+                    unique_sources.append({"book_name": b, "page_number": p, "image_path": raw_img})
             
             # Inject metadata directly into the context so the LLM doesn't hallucinate citations
             context_chunks = []
