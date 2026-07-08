@@ -57,27 +57,19 @@ def get_current_user(request: Request):
 
 # Disable default docs to allow our custom /docs route to work
 # Global chatbot instance
-import asyncio
-
 bot = None
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    def init_bot():
-        global bot
-        try:
-            print("Initializing Medical Chatbot Engine in background...")
-            bot = MedicalChatbot()
-            print("--- VECTOR STORE VERIFICATION ---")
-            print("Skipped verification search during startup to prevent boot hanging (useful when Ollama is processing background ingestion tasks).")
-            print("---------------------------------")
-            print("MedicalChatbot initialization complete.")
-        except Exception as e:
-            print(f"Chatbot initialization error: {e}")
-            
-    # Run in background executor to prevent blocking Uvicorn's port binding
-    loop = asyncio.get_running_loop()
-    loop.run_in_executor(None, init_bot)
+    global bot
+    try:
+        print("Initializing Medical Chatbot Engine...")
+        bot = MedicalChatbot()
+        print("--- VECTOR STORE VERIFICATION ---")
+        print("Skipped verification search during startup to prevent boot hanging (useful when Ollama is processing background ingestion tasks).")
+        print("---------------------------------")
+    except Exception as e:
+        print(f"Chatbot initialization error: {e}")
     yield
 
 # Disable default docs to allow our custom /docs route to work
