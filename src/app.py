@@ -10,6 +10,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 import jwt
 from src.chatbot_engine import MedicalChatbot
+import asyncio
 
 # Load environment configurations
 load_dotenv()
@@ -61,15 +62,18 @@ bot = None
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    global bot
-    try:
-        print("Initializing Medical Chatbot Engine...")
-        bot = MedicalChatbot()
-        print("--- VECTOR STORE VERIFICATION ---")
-        print("Skipped verification search during startup to prevent boot hanging (useful when Ollama is processing background ingestion tasks).")
-        print("---------------------------------")
-    except Exception as e:
-        print(f"Chatbot initialization error: {e}")
+    async def init_bot():
+        global bot
+        try:
+            print("Initializing Medical Chatbot Engine in background...", flush=True)
+            bot = await asyncio.to_thread(MedicalChatbot)
+            print("--- VECTOR STORE VERIFICATION ---", flush=True)
+            print("Skipped verification search during startup to prevent boot hanging.", flush=True)
+            print("---------------------------------", flush=True)
+        except Exception as e:
+            print(f"Chatbot initialization error: {e}", flush=True)
+            
+    asyncio.create_task(init_bot())
     yield
 
 # Disable default docs to allow our custom /docs route to work
